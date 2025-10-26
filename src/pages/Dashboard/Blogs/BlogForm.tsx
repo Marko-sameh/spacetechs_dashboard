@@ -164,7 +164,8 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 text-white rounded hover:opacity-90 disabled:opacity-50"
+          style={{ backgroundColor: '#273469' }}
         >
           {isLoading ? 'Saving...' : blog ? 'Update' : 'Create'}
         </button>
