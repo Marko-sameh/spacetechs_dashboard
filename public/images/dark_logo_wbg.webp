@@ -1,0 +1,3 @@
+# This is a placeholder - you need to convert your PNG to WebP format
+# Use an online converter or imagemagick: 
+# magick dark_logo_wbg.png -quality 80 -resize 500x500 dark_logo_wbg.webp

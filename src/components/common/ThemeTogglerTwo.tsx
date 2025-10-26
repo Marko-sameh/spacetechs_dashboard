@@ -1,0 +1,1 @@
+export { ThemeToggleButton as default } from './ThemeToggleButton';
