@@ -13,6 +13,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
     content: '',
     category: '',
     tags: '',
+    author: '',
     featured: false,
   });
   const { categories } = useCategories();
@@ -25,6 +26,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         content: blog.content,
         category: typeof blog.category === 'string' ? blog.category : blog.category._id,
         tags: Array.isArray(blog.tags) ? blog.tags.join(', ') : '',
+        author: blog.author || '',
         featured: blog.featured,
       });
     }
@@ -39,6 +41,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         content: formData.content,
         category: formData.category,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+        author: formData.author,
         featured: formData.featured,
       };
       if (!formData.category) {
@@ -60,7 +63,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
   };
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 overflowX-scroll my-5 h-[80vh]">
+    <form onSubmit={handleSubmit} className="space-y-6 overflow-y-auto p-6 max-h-[85vh]">
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Title
@@ -81,7 +84,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           value={formData.summary}
           onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
           className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          rows={2}
+          rows={3}
           placeholder="Brief summary of the blog post"
         />
       </div>
@@ -92,8 +95,8 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         <textarea
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          rows={4}
+          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[200px]"
+          rows={8}
           required
         />
       </div>
@@ -123,6 +126,19 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
           className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="react, javascript, tutorial"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Author
+        </label>
+        <input
+          type="text"
+          value={formData.author}
+          onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Author name"
+          required
         />
       </div>
       <div className="flex items-center">

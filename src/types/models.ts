@@ -92,6 +92,7 @@ export interface CreateBlogData {
   summary?: string;
   content: string;
   tags?: string[];
+  author?: string;
   featured?: boolean;
   [key: string]: unknown;
 }
