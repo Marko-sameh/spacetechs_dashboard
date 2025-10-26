@@ -63,7 +63,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
   };
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 overflow-y-auto p-6 max-h-[85vh]">
+    <form onSubmit={handleSubmit} className="space-y-6 p-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Title
@@ -153,7 +153,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           Featured
         </label>
       </div>
-      <div className="flex gap-2 justify-end pt-4">
+      <div className="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
         <button
           type="button"
           onClick={onSuccess}

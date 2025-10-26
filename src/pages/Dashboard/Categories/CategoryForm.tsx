@@ -60,7 +60,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
   }, [category, formData, editCategory, addCategory, onSuccess]);
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6 p-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Icon
@@ -129,7 +129,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           rows={3}
         />
       </div>
-      <div className="flex gap-2 justify-end pt-4">
+      <div className="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
         <button
           type="button"
           onClick={onSuccess}

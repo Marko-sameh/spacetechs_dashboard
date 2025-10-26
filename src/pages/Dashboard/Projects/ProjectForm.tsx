@@ -104,7 +104,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
     }
   }, [formData, project, editProject, addProject, onSuccess]);
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto">
+    <form onSubmit={handleSubmit} className="space-y-6 p-6 max-h-[75vh] overflow-y-auto custom-scrollbar">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -309,7 +309,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           Featured Project
         </label>
       </div>
-      <div className="flex gap-2 justify-end pt-4">
+      <div className="flex gap-3 justify-end pt-6 border-t border-gray-200 dark:border-gray-700 mt-6">
         <button
           type="button"
           onClick={onSuccess}
