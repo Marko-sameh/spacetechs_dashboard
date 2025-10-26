@@ -72,7 +72,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           type="text"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
       </div>
@@ -83,7 +83,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         <textarea
           value={formData.summary}
           onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           rows={3}
           placeholder="Brief summary of the blog post"
         />
@@ -95,7 +95,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         <textarea
           value={formData.content}
           onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[200px]"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[200px]"
           rows={8}
           required
         />
@@ -107,7 +107,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         <select
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         >
           <option value="">Select Category</option>
@@ -124,7 +124,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           type="text"
           value={formData.tags}
           onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="react, javascript, tutorial"
         />
       </div>
@@ -136,7 +136,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           type="text"
           value={formData.author}
           onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Author name"
           required
         />

@@ -80,7 +80,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
               reader.readAsDataURL(file);
             }
           }, [])}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {imagePreview && (
           <div className="mt-2">
@@ -98,7 +98,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           onChange={useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
             setFormData(prev => ({ ...prev, name: e.target.value }));
           }, [])}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
       </div>
@@ -112,7 +112,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           onChange={useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
             setFormData(prev => ({ ...prev, slug: e.target.value }));
           }, [])}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="URL-friendly version of name"
         />
       </div>
@@ -125,7 +125,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           onChange={useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setFormData(prev => ({ ...prev, description: e.target.value }));
           }, [])}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           rows={3}
         />
       </div>

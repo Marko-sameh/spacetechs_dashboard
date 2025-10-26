@@ -159,7 +159,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             onChange={useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
               setFormData(prev => ({ ...prev, category: e.target.value }));
             }, [])}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           >
             <option value="">Select Category</option>
@@ -172,19 +172,18 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Status
           </label>
-          <Select
-            options={[
-              { value: 'Ongoing', label: 'Ongoing' },
-              { value: 'Completed', label: 'Completed' },
-              { value: 'Paused', label: 'Paused' }
-            ]}
-            defaultValue={formData.status}
-            onChange={useCallback((value: string) => {
-              setFormData(prev => ({ ...prev, status: value as 'Ongoing' | 'Completed' | 'Paused' }));
+          <select
+            value={formData.status}
+            onChange={useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+              setFormData(prev => ({ ...prev, status: e.target.value as 'Ongoing' | 'Completed' | 'Paused' }));
             }, [])}
-            placeholder="Select status"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
-          />
+          >
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
+            <option value="Paused">Paused</option>
+          </select>
         </div>
       </div>
       <div>
@@ -211,7 +210,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             onChange={useCallback((date: Date | null) => {
               setFormData(prev => ({ ...prev, startDate: date }));
             }, [])}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             dateFormat="yyyy-MM-dd"
             placeholderText="Select start date"
           />
@@ -225,7 +224,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             onChange={useCallback((date: Date | null) => {
               setFormData(prev => ({ ...prev, endDate: date }));
             }, [])}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             dateFormat="yyyy-MM-dd"
             placeholderText="Select end date"
             minDate={formData.startDate instanceof Date ? formData.startDate : undefined}
