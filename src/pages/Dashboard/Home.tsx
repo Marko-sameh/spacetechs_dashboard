@@ -41,7 +41,7 @@ const StatCard = memo(({ icon, title, value, subtitle, color = "brand" }: {
   color?: string;
 }) => (
   <div className="rounded-lg border border-gray-200 bg-white p-2 sm:p-3 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <div className={`flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-${color}-50 dark:bg-${color}-800/30`}>
+    <div className="flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30 text-[#273469] dark:text-[#FAFAFF]">
       {icon}
     </div>
     <div className="mt-1.5 sm:mt-2 flex items-end justify-between">

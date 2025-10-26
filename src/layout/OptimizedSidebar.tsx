@@ -48,7 +48,8 @@ const SubMenu = memo<{
   items: NavItem['subItems'];
   isOpen: boolean;
   isActive: (path: string) => boolean;
-}>(({ items, isOpen, isActive }) => (
+  isDark: boolean;
+}>(({ items, isOpen, isActive, isDark }) => (
   <div
     className="overflow-hidden transition-all duration-300"
     style={{
@@ -64,9 +65,10 @@ const SubMenu = memo<{
             to={subItem.path}
             className={`menu-dropdown-item ${
               isActive(subItem.path)
-                ? "menu-dropdown-item-active"
+                ? ""
                 : "menu-dropdown-item-inactive"
             }`}
+            style={isActive(subItem.path) ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
           >
             {subItem.name}
             {subItem.new && (
@@ -91,7 +93,17 @@ const OptimizedSidebar: React.FC = () => {
     index: number;
   } | null>(null);
 
+  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
+
   const sidebarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   // Memoized active path checker
   const isActive = useCallback(
@@ -142,13 +154,14 @@ const OptimizedSidebar: React.FC = () => {
                 onClick={() => handleSubmenuToggle(index, menuType)}
                 className={`menu-item group ${
                   openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "bg-brand-50 text-brand-500 dark:bg-brand-500/20 dark:text-brand-50"
+                    ? ""
                     : "menu-item-inactive"
                 } cursor-pointer ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "lg:justify-start"
                 }`}
+                style={openSubmenu?.type === menuType && openSubmenu?.index === index ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
               >
                 <span className="menu-item-icon-size">
                   {nav.icon}
@@ -171,6 +184,7 @@ const OptimizedSidebar: React.FC = () => {
                   items={nav.subItems}
                   isOpen={openSubmenu?.type === menuType && openSubmenu?.index === index}
                   isActive={isActive}
+                  isDark={isDark}
                 />
               )}
             </>
@@ -179,8 +193,9 @@ const OptimizedSidebar: React.FC = () => {
               <Link
                 to={nav.path}
                 className={`menu-item group ${
-                  isActive(nav.path) ? "bg-brand-50 text-brand-500 dark:bg-brand-500/20 dark:text-brand-50" : "menu-item-inactive"
+                  isActive(nav.path) ? "" : "menu-item-inactive"
                 }`}
+                style={isActive(nav.path) ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
               >
                 <span className="menu-item-icon-size">
                   {nav.icon}
@@ -194,7 +209,7 @@ const OptimizedSidebar: React.FC = () => {
         </li>
       ))}
     </ul>
-  ), [isExpanded, isHovered, openSubmenu, handleSubmenuToggle, isActive]);
+  ), [isExpanded, isHovered, openSubmenu, handleSubmenuToggle, isActive, isDark]);
 
   return (
     <>
@@ -228,9 +243,10 @@ const OptimizedSidebar: React.FC = () => {
                         onClick={() => handleSubmenuToggle(index, "main")}
                         className={`menu-item group ${
                           openSubmenu?.type === "main" && openSubmenu?.index === index
-                            ? "bg-brand-50 text-brand-500 dark:bg-brand-500/20 dark:text-brand-50"
+                            ? ""
                             : "menu-item-inactive"
                         } cursor-pointer w-full text-left`}
+                        style={openSubmenu?.type === "main" && openSubmenu?.index === index ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
                       >
                         <span className="menu-item-icon-size">
                           {nav.icon}
@@ -260,9 +276,10 @@ const OptimizedSidebar: React.FC = () => {
                                   to={subItem.path}
                                   className={`menu-dropdown-item ${
                                     isActive(subItem.path)
-                                      ? "menu-dropdown-item-active"
+                                      ? ""
                                       : "menu-dropdown-item-inactive"
                                   }`}
+                                  style={isActive(subItem.path) ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
                                 >
                                   {subItem.name}
                                   {subItem.new && (
@@ -280,8 +297,9 @@ const OptimizedSidebar: React.FC = () => {
                       <Link
                         to={nav.path}
                         className={`menu-item group ${
-                          isActive(nav.path) ? "bg-brand-50 text-brand-500 dark:bg-brand-500/20 dark:text-brand-50" : "menu-item-inactive"
+                          isActive(nav.path) ? "" : "menu-item-inactive"
                         }`}
+                        style={isActive(nav.path) ? {backgroundColor: '#27346920', color: isDark ? '#FAFAFF' : '#273469'} : {}}
                       >
                         <span className="menu-item-icon-size">
                           {nav.icon}
