@@ -2,28 +2,22 @@ import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { useAuth } from "../../hooks/useAuth";
-
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
-
   function toggleDropdown() {
     setIsOpen(!isOpen);
   }
-
   function closeDropdown() {
     setIsOpen(false);
   }
-
   const handleLogout = async () => {
     closeDropdown();
     await logout();
   };
-
   const defaultPhoto = user?.gender === 'female' 
     ? '/images/user/user-02.png' 
     : '/images/user/user-01.png';
-  
   const userPhoto = user?.photo || defaultPhoto;
   return (
     <div className="relative">
@@ -34,7 +28,6 @@ export default function UserDropdown() {
         <span className="mr-2 sm:mr-3 overflow-hidden rounded-full h-8 w-8 sm:h-10 sm:w-10 lg:h-11 lg:w-11">
           <img src={userPhoto} alt={user?.name || 'User'} className="w-full h-full object-cover" />
         </span>
-
         <span className="hidden sm:block mr-1 font-medium text-theme-sm truncate max-w-24 lg:max-w-none">{user?.name || 'User'}</span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -55,7 +48,6 @@ export default function UserDropdown() {
           />
         </svg>
       </button>
-
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
@@ -72,7 +64,6 @@ export default function UserDropdown() {
             {user?.role || 'admin'}
           </span>
         </div>
-
         <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
           <li>
             <DropdownItem

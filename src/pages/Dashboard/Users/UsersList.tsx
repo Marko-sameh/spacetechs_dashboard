@@ -9,7 +9,6 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import Badge from '../../../components/ui/badge/Badge';
 import Alert from '../../../components/ui/alert/Alert';
 import { ListPageHeader } from '../../../components/common/ListPageHeader';
-
 const UsersList: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
@@ -28,22 +27,17 @@ const UsersList: React.FC = () => {
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [alert, setAlert] = useState<{type: 'success' | 'error', message: string} | null>(null);
-
   const { users, isLoading, error, createUser, updateUser, deleteUser, isCreating, isUpdating, isDeleting } = useUsers();
   const { user: currentUser } = useAuth();
-
   // Filter users based on search term and filters
   const filteredUsers = users?.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.role.toLowerCase().includes(searchTerm.toLowerCase());
-    
     const matchesRole = !roleFilter || user.role === roleFilter;
     const matchesStatus = !statusFilter || (user.active !== undefined && user.active.toString() === statusFilter);
-    
     return matchesSearch && matchesRole && matchesStatus;
   }) || [];
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.passwordConfirm && !editingUser) {
@@ -72,7 +66,6 @@ const UsersList: React.FC = () => {
       setTimeout(() => setAlert(null), 5000);
     }
   };
-
   const handleEdit = (user: User) => {
     setEditingUser(user);
     setFormData({
@@ -87,7 +80,6 @@ const UsersList: React.FC = () => {
     setImagePreview(user.photo || null);
     setIsFormOpen(true);
   };
-
   const handleDelete = async (id: string) => {
     try {
       await deleteUser(id);
@@ -100,7 +92,6 @@ const UsersList: React.FC = () => {
       setTimeout(() => setAlert(null), 5000);
     }
   };
-
   if (currentUser?.role !== 'superAdmin') {
     return (
       <div className="p-6">
@@ -111,10 +102,8 @@ const UsersList: React.FC = () => {
       </div>
     );
   }
-
   if (isLoading) return <div className="flex justify-center p-8"><LoadingSpinner size="lg" /></div>;
   if (error) return <ErrorMessage message="Failed to load users" />;
-
   return (
     <div className="p-6">
       {alert && (
@@ -140,11 +129,9 @@ const UsersList: React.FC = () => {
           ],
           placeholder: 'All Roles'
         }}
-        
         onAddClick={() => setIsFormOpen(true)}
         addButtonText="Add User"
       />
-
       {filteredUsers.length === 0 ? (
         <EmptyState
           title={searchTerm ? 'No users found' : 'No users yet'}
@@ -173,7 +160,6 @@ const UsersList: React.FC = () => {
                 ? '/images/user/user-02.png' 
                 : '/images/user/user-01.png';
               const userPhoto = user.photo || defaultPhoto;
-
               return (
                 <tr key={user._id}>
                   <td className="px-6 py-4">
@@ -189,7 +175,6 @@ const UsersList: React.FC = () => {
                       {user.role === 'superAdmin' ? 'Super Admin' : 'Admin'}
                     </Badge>
                   </td>
-
                   <td className="px-6 py-4 text-sm">
                     <div className="flex items-center gap-2">
                       <button
@@ -223,7 +208,6 @@ const UsersList: React.FC = () => {
           </table>
         </div>
       )}
-
       <Modal
         isOpen={isFormOpen}
         onClose={() => {
@@ -374,7 +358,6 @@ const UsersList: React.FC = () => {
           </form>
         </div>
       </Modal>
-
       <Modal
         isOpen={!!deleteConfirm}
         onClose={() => setDeleteConfirm(null)}
@@ -403,5 +386,4 @@ const UsersList: React.FC = () => {
     </div>
   );
 };
-
 export default UsersList;

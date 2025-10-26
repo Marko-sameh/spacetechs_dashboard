@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-
 /**
  * Generic API hook for handling loading states and errors
  */
@@ -7,11 +6,9 @@ export function useApi<T = unknown, P = unknown>() {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const execute = useCallback(async (apiCall: (params?: P) => Promise<T>, params?: P) => {
     setLoading(true);
     setError(null);
-    
     try {
       const result = await apiCall(params);
       setData(result);
@@ -24,13 +21,11 @@ export function useApi<T = unknown, P = unknown>() {
       setLoading(false);
     }
   }, []);
-
   const reset = useCallback(() => {
     setData(null);
     setError(null);
     setLoading(false);
   }, []);
-
   return {
     data,
     loading,

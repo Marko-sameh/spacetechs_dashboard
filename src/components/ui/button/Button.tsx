@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-
 interface ButtonProps {
   children: ReactNode; // Button text or content
   size?: "sm" | "md"; // Button size
@@ -11,7 +10,6 @@ interface ButtonProps {
   className?: string; // Additional CSS classes
   type?: "button" | "submit" | "reset"; // Button type
 }
-
 const Button: React.FC<ButtonProps> = ({
   children,
   size = "md",
@@ -28,7 +26,6 @@ const Button: React.FC<ButtonProps> = ({
     sm: "px-4 py-3 text-sm",
     md: "px-5 py-3.5 text-sm",
   };
-
   // Variant Classes
   const variantClasses = {
     primary:
@@ -36,7 +33,6 @@ const Button: React.FC<ButtonProps> = ({
     outline:
       "bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 dark:hover:bg-gray-700 dark:hover:text-gray-200",
   };
-
   return (
     <button
       type={type}
@@ -54,5 +50,4 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-
 export default Button;

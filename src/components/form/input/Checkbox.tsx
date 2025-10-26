@@ -1,11 +1,8 @@
-
-
 interface CheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
 }
-
 export default function Checkbox({ checked, onChange, className = '' }: CheckboxProps) {
   return (
     <input

@@ -8,7 +8,6 @@ type BadgeColor =
   | "info"
   | "light"
   | "dark";
-
 interface BadgeProps {
   variant?: BadgeVariant; // Light or solid variant
   size?: BadgeSize; // Badge size
@@ -18,7 +17,6 @@ interface BadgeProps {
   children: React.ReactNode; // Badge content
   className?: string; // Additional CSS classes
 }
-
 const Badge: React.FC<BadgeProps> = ({
   variant = "light",
   color = "primary",
@@ -30,13 +28,11 @@ const Badge: React.FC<BadgeProps> = ({
 }) => {
   const baseStyles =
     "inline-flex items-center px-2.5 py-0.5 justify-center gap-1 rounded-full font-medium";
-
   // Define size styles
   const sizeStyles = {
     sm: "text-theme-xs", // Smaller padding and font size
     md: "text-sm", // Default padding and font size
   };
-
   // Define color styles for variants
   const variants = {
     light: {
@@ -62,11 +58,9 @@ const Badge: React.FC<BadgeProps> = ({
       dark: "bg-gray-700 text-white dark:text-white",
     },
   };
-
   // Get styles based on size and color variant
   const sizeClass = sizeStyles[size];
   const colorStyles = variants[variant][color];
-
   return (
     <span className={`${baseStyles} ${sizeClass} ${colorStyles} ${className}`}>
       {startIcon && <span className="mr-1">{startIcon}</span>}
@@ -75,5 +69,4 @@ const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
-
 export default Badge;

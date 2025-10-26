@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ProjectsContext } from '../context/ProjectsContext';
-
 /**
  * Hook for accessing projects context
  */

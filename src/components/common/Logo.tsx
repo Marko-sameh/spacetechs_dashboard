@@ -6,7 +6,6 @@ const LOGO_SIZES = {
   medium: { width: 'w-12 sm:w-14', height: 'h-12 sm:h-14' },
   large: { width: 'w-14 sm:w-16', height: 'h-14 sm:h-16' }
 };
-
 interface LogoProps {
   imgWidth?: number;
   imgHeight?: number;
@@ -15,7 +14,6 @@ interface LogoProps {
   layout?: "vertical" | "horizontal";
   className?: string;
 }
-
 const Logo: React.FC<LogoProps> = memo(({
   imgWidth = 50,
   imgHeight = 48,
@@ -30,7 +28,6 @@ const Logo: React.FC<LogoProps> = memo(({
     if (imgWidth <= 80) return LOGO_SIZES.medium;
     return LOGO_SIZES.large;
   }, [imgWidth]);
-
   const responsiveTextSize = useMemo(() => {
     const size = parseFloat(textSize);
     if (size <= 1) return 'text-sm sm:text-base';
@@ -38,7 +35,6 @@ const Logo: React.FC<LogoProps> = memo(({
     if (size <= 1.5) return 'text-lg sm:text-xl';
     return 'text-xl sm:text-2xl';
   }, [textSize]);
-
   return (
     <div
       className={`
@@ -65,7 +61,6 @@ const Logo: React.FC<LogoProps> = memo(({
           fetchPriority="high"
         />
       </picture>
-      
       {/* Dark mode logo */}
       <picture>
         <source srcSet={logo} type="image/webp" />
@@ -80,7 +75,6 @@ const Logo: React.FC<LogoProps> = memo(({
           fetchPriority="high"
         />
       </picture>
-
       {showText && (
         <h1
           className={`font-bold font-outfit transition-all duration-300 ${responsiveTextSize}`}
@@ -116,7 +110,5 @@ const Logo: React.FC<LogoProps> = memo(({
     </div>
   );
 });
-
 Logo.displayName = 'Logo';
-
 export default Logo;

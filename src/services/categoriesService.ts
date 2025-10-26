@@ -9,7 +9,6 @@ import {
 } from '../lib/apiClient';
 import { buildQueryParams } from '../lib/buildQueryParams';
 import { Category, ApiResponse, QueryParams, CreateCategoryData } from '../types/models';
-
 /**
  * Categories service - handles all category-related API operations
  * Matches API documentation exactly
@@ -23,7 +22,6 @@ export class CategoriesService {
     const response = await apiGetCategories(queryString);
     return response.data;
   }
-
   /**
    * GET /categories/:id - Get single category by ID
    */
@@ -31,7 +29,6 @@ export class CategoriesService {
     const response = await apiGetCategory(id);
     return response.data.data.category;
   }
-
   /**
    * POST /categories/ - Create a new category
    */
@@ -39,7 +36,6 @@ export class CategoriesService {
     const response = await apiCreateCategory(data);
     return response.data.data.category;
   }
-
   /**
    * PATCH /categories/:id - Update category by ID
    */
@@ -47,14 +43,12 @@ export class CategoriesService {
     const response = await apiUpdateCategory(id, data);
     return response.data.data.category;
   }
-
   /**
    * DELETE /categories/:id - Delete category by ID
    */
   static async deleteCategory(id: string): Promise<void> {
     await apiDeleteCategory(id);
   }
-
   /**
    * PATCH /categories/:id/updateIcon - Upload or update category icon
    */
@@ -62,7 +56,6 @@ export class CategoriesService {
     const response = await updateCategoryIcon(id, formData);
     return response.data.data.category;
   }
-
   /**
    * DELETE /categories/:id/deleteIcon - Delete category icon
    */

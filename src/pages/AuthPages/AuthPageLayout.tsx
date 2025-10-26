@@ -1,5 +1,4 @@
 import React from "react";
-
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
 import Logo from "../../components/common/Logo";
 export default function AuthLayout({
@@ -14,11 +13,8 @@ export default function AuthLayout({
         <div className="items-center hidden w-full h-full lg:w-1/2 bg-brand-950 dark:bg-white/5 lg:grid">
           <div className="relative flex items-center justify-center z-1">
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
-
             <div className="flex flex-col items-center max-w-xs">
       <Logo textSize="3rem " imgWidth={231} imgHeight={48} layout="vertical"/>
-
-
             </div>
           </div>
         </div>

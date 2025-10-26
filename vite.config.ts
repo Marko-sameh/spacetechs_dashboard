@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { resolve } from "path";
+import { removeConsolePlugin } from "./vite-plugins/remove-console";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,6 +21,7 @@ export default defineConfig({
         },
       },
     }),
+    removeConsolePlugin(),
   ],
 
   // Performance optimizations
@@ -99,6 +101,14 @@ export default defineConfig({
     // Preconnect to external domains
     headers: {
       'Link': '<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin'
+    },
+    proxy: {
+      '/api': {
+        target: 'https://backend.spacetechs.net',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
     }
   },
 

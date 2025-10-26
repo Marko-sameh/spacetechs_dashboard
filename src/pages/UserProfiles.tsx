@@ -5,7 +5,6 @@ import { LoadingSpinner } from "../components/ui/LoadingSpinner";
 import Alert from "../components/ui/alert/Alert";
 import Avatar from "../components/ui/avatar/Avatar";
 import { useState } from "react";
-
 export default function UserProfiles() {
   const { user, updateProfile, updatePhoto, deletePhoto, updatePassword, loading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -20,7 +19,6 @@ export default function UserProfiles() {
     passwordConfirm: ''
   });
   const [alert, setAlert] = useState<{type: 'success' | 'error', message: string} | null>(null);
-
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -30,7 +28,6 @@ export default function UserProfiles() {
       console.error('Profile update failed:', error);
     }
   };
-
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -41,7 +38,6 @@ export default function UserProfiles() {
       }
     }
   };
-
   const handleDeletePhoto = async () => {
     try {
       await deletePhoto();
@@ -49,7 +45,6 @@ export default function UserProfiles() {
       console.error('Photo deletion failed:', error);
     }
   };
-
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordData.password !== passwordData.passwordConfirm) {
@@ -69,7 +64,6 @@ export default function UserProfiles() {
       setTimeout(() => setAlert(null), 5000);
     }
   };
-
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -77,13 +71,10 @@ export default function UserProfiles() {
       </div>
     );
   }
-
   const defaultPhoto = user.gender === 'female' 
     ? '/images/user/user-02.png' 
     : '/images/user/user-01.png';
-  
   const userPhoto = user.photo || defaultPhoto;
-
   return (
     <>
       <PageMeta
@@ -91,8 +82,6 @@ export default function UserProfiles() {
         description="User Profile Management"
       />
       <PageBreadcrumb pageTitle="Profile" />
-      
-      
       {alert && (
         <div className="mb-4">
           <Alert
@@ -102,12 +91,10 @@ export default function UserProfiles() {
           />
         </div>
       )}
-      
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
           Profile
         </h3>
-        
         <div className="space-y-6">
           {/* Profile Photo Section */}
           <div className="flex items-center space-x-6">
@@ -137,14 +124,10 @@ export default function UserProfiles() {
         disabled={loading}
       />
     </label>
-
     {/* زر اليمين */}
-
   </div>
 </div>
-
           </div>
-
           {/* Profile Information */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
             <div className="flex justify-between items-center mb-4">
@@ -156,7 +139,6 @@ export default function UserProfiles() {
                 {isEditing ? 'Cancel' : 'Edit'}
               </button>
             </div>
-
             {isEditing ? (
               <form onSubmit={handleUpdateProfile} className="space-y-4">
                 <div>
@@ -225,7 +207,6 @@ export default function UserProfiles() {
               </div>
             )}
           </div>
-
           {/* Password Change Section */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
             <div className="flex justify-between items-center mb-4">
@@ -237,7 +218,6 @@ export default function UserProfiles() {
                 {isChangingPassword ? 'Cancel' : 'Change Password'}
               </button>
             </div>
-
             {isChangingPassword ? (
               <form onSubmit={handlePasswordChange} className="space-y-4">
                 <div>

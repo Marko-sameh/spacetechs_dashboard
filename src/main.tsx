@@ -4,7 +4,6 @@ import "./index.css";
 import "./utils/preloader";
 import { extremeOptimization, disableWebSocket } from "./utils/extremePerformanceOptimizer";
 import { CriticalCSS } from "./components/common/CriticalCSS.tsx";
-
 // Lazy load heavy dependencies
 const QueryClientProvider = lazy(() => 
   import('@tanstack/react-query').then(m => ({ default: m.QueryClientProvider }))
@@ -16,11 +15,7 @@ const AppWrapper = lazy(() =>
 const ThemeProvider = lazy(() => 
   import("./context/ThemeContext.tsx").then(m => ({ default: m.ThemeProvider }))
 );
-
-
-
 // Remove unused CSS imports entirely
-
 // Lazy create QueryClient
 const createQueryClient = async () => {
   const { QueryClient } = await import('@tanstack/react-query');
@@ -33,20 +28,16 @@ const createQueryClient = async () => {
     },
   });
 };
-
 const AppLoader = () => {
   const [queryClient, setQueryClient] = React.useState<any>(null);
-  
   React.useEffect(() => {
     createQueryClient().then(setQueryClient);
   }, []);
-  
   if (!queryClient) {
     return React.createElement('div', { className: 'flex items-center justify-center h-screen' },
       React.createElement('div', { className: 'animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600' })
     );
   }
-  
   return React.createElement(Suspense, {
     fallback: React.createElement('div', { className: 'flex items-center justify-center h-screen' },
       React.createElement('div', { className: 'animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600' })
@@ -61,11 +52,9 @@ const AppLoader = () => {
     )
   );
 };
-
 // Extreme performance optimizations for 90+ score
 extremeOptimization();
 disableWebSocket();
-
 createRoot(document.getElementById("root")!).render(
   React.createElement(StrictMode, null,
     React.createElement(CriticalCSS, null),

@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-
 /**
  * Hook for managing localStorage with React state synchronization
  */
@@ -13,7 +12,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       return initialValue;
     }
   });
-
   const setValue = useCallback((value: T | ((val: T) => T)) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
@@ -23,7 +21,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       console.error(`Error setting localStorage key "${key}":`, error);
     }
   }, [key, storedValue]);
-
   const removeValue = useCallback(() => {
     try {
       window.localStorage.removeItem(key);
@@ -32,6 +29,5 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       console.error(`Error removing localStorage key "${key}":`, error);
     }
   }, [key, initialValue]);
-
   return [storedValue, setValue, removeValue] as const;
 }

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCategories } from '../../../hooks/useCategories';
 import { Category, CreateCategoryData } from '../../../types/models';
-
 interface CategoryFormProps {
   category?: Category | null;
   onSuccess: () => void;
 }
-
 const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
   const [formData, setFormData] = useState<CreateCategoryData>({
     name: '',
@@ -15,9 +13,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
     imageIcon: '',
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
   const { addCategory, editCategory } = useCategories();
-
   useEffect(() => {
     if (category) {
       setFormData({
@@ -31,7 +27,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
       }
     }
   }, [category]);
-
   // Cleanup object URL on unmount
   useEffect(() => {
     return () => {
@@ -40,7 +35,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
       }
     };
   }, [imagePreview]);
-
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -51,7 +45,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
         description: formData.description,
         imageIcon: formData.imageIcon,
       };
-      
       if (category) {
         await editCategory(category._id, submitData);
       } else {
@@ -65,9 +58,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
       setIsLoading(false);
     }
   }, [category, formData, editCategory, addCategory, onSuccess]);
-
   const [isLoading, setIsLoading] = useState(false);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -97,7 +88,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           </div>
         )}
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Name
@@ -112,7 +102,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           required
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Slug
@@ -127,7 +116,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           placeholder="URL-friendly version of name"
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Description
@@ -141,7 +129,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
           rows={3}
         />
       </div>
-
       <div className="flex gap-2 justify-end pt-4">
         <button
           type="button"
@@ -161,5 +148,4 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ category, onSuccess }) => {
     </form>
   );
 };
-
 export default CategoryForm;

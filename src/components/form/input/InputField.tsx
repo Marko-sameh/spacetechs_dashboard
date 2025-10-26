@@ -1,5 +1,4 @@
 import React from 'react';
-
 interface InputFieldProps {
   id?: string;
   name?: string;
@@ -11,7 +10,6 @@ interface InputFieldProps {
   required?: boolean;
   disabled?: boolean;
 }
-
 const InputField: React.FC<InputFieldProps> = ({
   id,
   name,
@@ -37,5 +35,4 @@ const InputField: React.FC<InputFieldProps> = ({
     />
   );
 };
-
 export default InputField;

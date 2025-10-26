@@ -2,13 +2,11 @@ import { BaseApiService } from './base';
 import { apiClient } from './client';
 import { getErrorMessage } from './base';
 import { Category, ApiResponse } from '../types/models';
-
 /**
  * Categories API service
  */
 export class CategoriesApi extends BaseApiService<Category> {
   protected endpoint = '/categories';
-
   /**
    * Update category icon
    */
@@ -24,7 +22,6 @@ export class CategoriesApi extends BaseApiService<Category> {
       throw new Error(getErrorMessage(error, 'Failed to update category icon'));
     }
   }
-
   /**
    * Delete category icon
    */
@@ -39,5 +36,4 @@ export class CategoriesApi extends BaseApiService<Category> {
     }
   }
 }
-
 export const categoriesApi = new CategoriesApi();

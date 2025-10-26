@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-
 import { Link } from "react-router";
 import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
@@ -7,9 +6,7 @@ import UserDropdown from "../components/header/UserDropdown";
 import Logo from "../components/common/Logo";
 const AppHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
-
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
       toggleSidebar();
@@ -17,13 +14,10 @@ const AppHeader: React.FC = () => {
       toggleMobileSidebar();
     }
   };
-
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
   };
-
   const inputRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
@@ -31,14 +25,11 @@ const AppHeader: React.FC = () => {
         inputRef.current?.focus();
       }
     };
-
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
   return (
     <header className="sticky top-0 flex w-full bg-white border-gray-200 z-99999 dark:border-gray-700 dark:bg-gray-800 lg:border-b">
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
@@ -81,11 +72,9 @@ const AppHeader: React.FC = () => {
             )}
             {/* Cross Icon */}
           </button>
-
           <Link to="/" className="lg:hidden">
             <Logo showText={false} imgHeight={80} imgWidth={80}/>
           </Link>
-
           <button
             onClick={toggleApplicationMenu}
             className="flex items-center justify-center w-10 h-10 text-gray-700 rounded-lg z-99999 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 lg:!hidden"
@@ -105,7 +94,6 @@ const AppHeader: React.FC = () => {
               />
             </svg>
           </button>
-
         </div>
         <div
           className={`${
@@ -116,7 +104,6 @@ const AppHeader: React.FC = () => {
             {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
             {/* <!-- Dark Mode Toggler --> */}
-
           </div>
           {/* <!-- User Area --> */}
           <UserDropdown />
@@ -125,5 +112,4 @@ const AppHeader: React.FC = () => {
     </header>
   );
 };
-
 export default AppHeader;

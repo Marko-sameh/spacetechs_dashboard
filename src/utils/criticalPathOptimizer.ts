@@ -1,7 +1,6 @@
 /**
  * Critical path optimization to reduce LCP from 1,333ms to <800ms
  */
-
 // Inline critical font CSS to eliminate network request
 export const inlineCriticalFontCSS = () => {
   const style = document.createElement('style');
@@ -17,7 +16,6 @@ export const inlineCriticalFontCSS = () => {
   `;
   document.head.appendChild(style);
 };
-
 // Preload only LCP image
 export const preloadLCPImage = () => {
   const link = document.createElement('link');
@@ -27,7 +25,6 @@ export const preloadLCPImage = () => {
   (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority = 'high';
   document.head.appendChild(link);
 };
-
 // Critical CSS for above-the-fold content
 export const inlineCriticalCSS = () => {
   const style = document.createElement('style');

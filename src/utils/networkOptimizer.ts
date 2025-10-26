@@ -1,7 +1,6 @@
 /**
  * Network optimization utilities to reduce critical path latency
  */
-
 // Minimal resource hints - only critical origins
 export const addResourceHints = () => {
   // Only preconnect to fonts.gstatic.com (actual font files)
@@ -11,7 +10,6 @@ export const addResourceHints = () => {
   link.crossOrigin = 'anonymous';
   document.head.appendChild(link);
 };
-
 // Preload critical resources with proper priorities
 export const preloadCriticalResources = (resources: {
   fonts?: string[];
@@ -19,7 +17,6 @@ export const preloadCriticalResources = (resources: {
   scripts?: string[];
 }) => {
   const { fonts = [], images = [], scripts = [] } = resources;
-
   // Preload fonts with high priority
   fonts.forEach(font => {
     const link = document.createElement('link');
@@ -31,7 +28,6 @@ export const preloadCriticalResources = (resources: {
     (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority = 'high';
     document.head.appendChild(link);
   });
-
   // Preload critical images
   images.forEach(image => {
     const link = document.createElement('link');
@@ -41,7 +37,6 @@ export const preloadCriticalResources = (resources: {
     (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority = 'high';
     document.head.appendChild(link);
   });
-
   // Preload critical scripts
   scripts.forEach(script => {
     const link = document.createElement('link');
@@ -51,7 +46,6 @@ export const preloadCriticalResources = (resources: {
     document.head.appendChild(link);
   });
 };
-
 // Optimize font loading
 export const optimizeFontLoading = () => {
   // Add font-display: swap to existing font faces
@@ -64,19 +58,15 @@ export const optimizeFontLoading = () => {
   `;
   document.head.appendChild(style);
 };
-
 // Service Worker for caching critical resources
 export const registerServiceWorker = async () => {
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('SW registered:', registration);
     } catch (error) {
-      console.log('SW registration failed:', error);
     }
   }
 };
-
 // Critical CSS inlining
 export const inlineCriticalCSS = (css: string) => {
   const style = document.createElement('style');
@@ -84,7 +74,6 @@ export const inlineCriticalCSS = (css: string) => {
   style.setAttribute('data-critical', 'true');
   document.head.appendChild(style);
 };
-
 // Lazy load non-critical CSS
 export const loadNonCriticalCSS = (href: string) => {
   const link = document.createElement('link');

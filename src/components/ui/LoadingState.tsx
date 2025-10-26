@@ -1,11 +1,9 @@
 import React from 'react';
-
 interface LoadingStateProps {
   size?: 'sm' | 'md' | 'lg';
   text?: string;
   className?: string;
 }
-
 /**
  * Unified loading state component
  */
@@ -19,7 +17,6 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
     md: 'w-8 h-8',
     lg: 'w-12 h-12',
   };
-
   return (
     <div className={`flex items-center justify-center p-4 ${className}`}>
       <div className="flex flex-col items-center space-y-2">

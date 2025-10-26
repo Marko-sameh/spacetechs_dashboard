@@ -4,9 +4,7 @@ import { AuthGuard } from "./components/auth/AuthGuard";
 import { AppProvider } from "./context/AppProvider";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import { LoadingState } from "./components/ui";
-
 import { useAuthStore } from "./store/authStore";
-
 // Lazy load components for better performance
 const SignIn = lazy(() => import("./pages/AuthPages/SignIn"));
 const AppLayout = lazy(() => import("./layout/AppLayout"));
@@ -15,28 +13,21 @@ const ProjectsList = lazy(() => import("./pages/Dashboard/Projects/ProjectsList"
 const CategoriesList = lazy(() => import("./pages/Dashboard/Categories/CategoriesList"));
 const BlogsList = lazy(() => import("./pages/Dashboard/Blogs/BlogsList"));
 const UsersList = lazy(() => import("./pages/Dashboard/Users/UsersList"));
-
 const UserProfiles = lazy(() => import("./pages/UserProfiles"));
 const Blank = lazy(() => import("./pages/Blank"));
-
 export default function App() {
   const initialize = useAuthStore(state => state.initialize);
-  
   useEffect(() => {
     initialize();
   }, [initialize]);
-
   return (
     <Router>
-
       <AppProvider>
-
         <ScrollToTop />
         <Suspense fallback={<LoadingState size="lg" text="Loading application..." />}>
           <Routes>
             {/* Auth Routes - No Guard */}
             <Route path="/signin" element={<SignIn />} />
-
             {/* Protected Routes */}
             <Route path="/*" element={
               <AuthGuard>

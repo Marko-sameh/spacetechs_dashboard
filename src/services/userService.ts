@@ -12,7 +12,6 @@ import {
   CreateUserData,
   QueryParams
 } from '../types/models';
-
 /**
  * User service - handles user management API operations (Admin only)
  * Authentication is handled separately in authStore
@@ -27,7 +26,6 @@ export class UserService {
     const response = await apiGetUsers(queryString);
     return response.data;
   }
-
   /**
    * POST /users/ - Creates a new user (Super Admin only)
    */
@@ -35,7 +33,6 @@ export class UserService {
     const response = await apiCreateUser(data);
     return response.data.data.user;
   }
-
   /**
    * GET /users/:id - Fetches a single user by ID (Super Admin only)
    */
@@ -43,7 +40,6 @@ export class UserService {
     const response = await apiGetUser(id);
     return response.data.data.user;
   }
-
   /**
    * PATCH /users/:id - Updates user by ID (Super Admin only)
    */
@@ -51,7 +47,6 @@ export class UserService {
     const response = await apiUpdateUser(id, data);
     return response.data.data.user;
   }
-
   /**
    * DELETE /users/:id - Deletes user by ID (Super Admin only)
    */

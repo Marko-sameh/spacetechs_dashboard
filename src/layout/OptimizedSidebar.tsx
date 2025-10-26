@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router";
 import { zeroReflow } from "../utils/extremePerformanceOptimizer";
 import { useSidebar } from "../context/SidebarContext";
 import Logo from "../components/common/Logo";
-
 // Lazy load icons to reduce initial bundle
 import {
   BoxCubeIcon,
@@ -12,14 +11,12 @@ import {
   HorizontaLDots,
   UserCircleIcon,
 } from "../icons/lazy";
-
 type NavItem = {
   name: string;
   icon: React.ReactNode;
   path?: string;
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
-
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
@@ -42,7 +39,6 @@ const navItems: NavItem[] = [
     path: "/profile",
   },
 ];
-
 // Memoized submenu component to prevent unnecessary re-renders
 const SubMenu = memo<{
   items: NavItem['subItems'];
@@ -80,23 +76,17 @@ const SubMenu = memo<{
     </ul>
   </div>
 ));
-
 SubMenu.displayName = 'SubMenu';
-
 const OptimizedSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
   // Use reflow eliminator for all DOM operations
-
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
     index: number;
   } | null>(null);
-
   const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
-
   const sidebarRef = useRef<HTMLElement>(null);
-
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains('dark'));
@@ -104,13 +94,11 @@ const OptimizedSidebar: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
   // Memoized active path checker
   const isActive = useCallback(
     (path: string) => location.pathname === path,
     [location.pathname]
   );
-
   // Zero reflow submenu toggle
   const handleSubmenuToggle = useCallback((index: number, menuType: "main" | "others") => {
     zeroReflow.write(() => {
@@ -122,11 +110,9 @@ const OptimizedSidebar: React.FC = () => {
       });
     });
   }, []);
-
   // Auto-open active submenu on route change
   useEffect(() => {
     let submenuMatched = false;
-    
     navItems.forEach((nav, index) => {
       if (nav.subItems) {
         nav.subItems.forEach((subItem) => {
@@ -137,12 +123,10 @@ const OptimizedSidebar: React.FC = () => {
         });
       }
     });
-
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
   }, [location, isActive]);
-
   // Memoized menu items renderer
   const renderMenuItems = useCallback((items: NavItem[], menuType: "main" | "others") => (
     <ul className="flex flex-col gap-4">
@@ -210,7 +194,6 @@ const OptimizedSidebar: React.FC = () => {
       ))}
     </ul>
   ), [isExpanded, isHovered, openSubmenu, handleSubmenuToggle, isActive, isDark]);
-
   return (
     <>
       {/* Mobile Sidebar */}
@@ -228,7 +211,6 @@ const OptimizedSidebar: React.FC = () => {
             <Logo textSize="1.25rem" imgWidth={60} imgHeight={60} layout="horizontal" />
           </Link>
         </div>
-
         <div className="flex flex-col overflow-y-auto flex-1 no-scrollbar pb-6">
           <nav className="mb-6">
             <h2 className="mb-4 text-xs uppercase leading-[20px] text-gray-400">
@@ -314,7 +296,6 @@ const OptimizedSidebar: React.FC = () => {
           </nav>
         </div>
       </aside>
-
       {/* Desktop Sidebar */}
       <aside
         className={`hidden lg:flex flex-col top-0 px-4 xl:px-5 left-0 bg-white dark:bg-gray-800 
@@ -337,7 +318,6 @@ const OptimizedSidebar: React.FC = () => {
             )}
           </Link>
         </div>
-
         <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar flex-1">
           <nav className="mb-6">
             <h2
@@ -360,5 +340,4 @@ const OptimizedSidebar: React.FC = () => {
     </>
   );
 };
-
 export default memo(OptimizedSidebar);

@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useBlogs } from '../../../context/BlogsContext';
 import { useCategories } from '../../../hooks/useCategories';
 import { Blog, Category, CreateBlogData } from '../../../types/models';
-
 interface BlogFormProps {
   blog?: Blog | null;
   onSuccess: () => void;
 }
-
 const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -17,10 +15,8 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
     tags: '',
     featured: false,
   });
-
   const { categories } = useCategories();
   const { addBlog, editBlog } = useBlogs();
-
   useEffect(() => {
     if (blog) {
       setFormData({
@@ -33,7 +29,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
       });
     }
   }, [blog]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -46,14 +41,10 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         featured: formData.featured,
       };
-      console.log('Submitting blog data:', submitData);
-      console.log('Available categories:', categories);
-      
       if (!formData.category) {
         alert('Please select a category');
         return;
       }
-      
       if (blog) {
         await editBlog(blog._id, submitData);
       } else {
@@ -67,9 +58,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
       setIsLoading(false);
     }
   };
-
   const [isLoading, setIsLoading] = useState(false);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4 overflowX-scroll my-5 h-[80vh]">
       <div>
@@ -84,7 +73,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           required
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Summary
@@ -97,7 +85,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           placeholder="Brief summary of the blog post"
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Content
@@ -110,7 +97,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           required
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Category
@@ -127,7 +113,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           ))}
         </select>
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Tags (comma-separated)
@@ -140,7 +125,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           placeholder="react, javascript, tutorial"
         />
       </div>
-
       <div className="flex items-center">
         <input
           type="checkbox"
@@ -153,7 +137,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
           Featured
         </label>
       </div>
-
       <div className="flex gap-2 justify-end pt-4">
         <button
           type="button"
@@ -173,5 +156,4 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSuccess }) => {
     </form>
   );
 };
-
 export default BlogForm;

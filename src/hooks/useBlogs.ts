@@ -4,12 +4,10 @@ import { BlogsService } from '../services/blogsService';
 import { Blog, QueryParams, CreateBlogData } from '../types/models';
 import { useMemo } from 'react';
 import { useAuthStore } from '../store/authStore';
-
 interface UseBlogsOptions {
   enabled?: boolean;
   overrides?: Partial<QueryParams>;
 }
-
 /**
  * Blogs hook - manages blog data with content management features and global state
  */
@@ -17,7 +15,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
   const queryClient = useQueryClient();
   const { filters, sort, search, page, limit } = useDashboardStore();
   const { isAuthenticated } = useAuthStore();
-  
   const queryParams = useMemo(() => ({
     ...filters,
     sort,
@@ -26,7 +23,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
     limit,
     ...options.overrides,
   }), [filters, sort, search, page, limit, options.overrides]);
-
   // Fetch blogs query
   const {
     data: response,
@@ -48,7 +44,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
       total: data.results || 0,
     }),
   });
-
   // Create blog mutation
   const createMutation = useMutation({
     mutationFn: BlogsService.createBlog,
@@ -56,7 +51,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
   });
-
   // Update blog mutation
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<Blog> }) =>
@@ -68,7 +62,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
   });
-
   // Delete blog mutation
   const deleteMutation = useMutation({
     mutationFn: BlogsService.deleteBlog,
@@ -76,7 +69,6 @@ export function useBlogs(options: UseBlogsOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
   });
-
   // Update cover mutation
   const updateCoverMutation = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
@@ -85,45 +77,38 @@ export function useBlogs(options: UseBlogsOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['blogs'] });
     },
   });
-
   return {
     // Data
     blogs: response?.blogs || [],
     paginationMeta: response?.pagination,
     total: response?.total || 0,
-    
     // States
     isLoading,
     isError,
     error,
     isFetching,
-    
     // Actions
     refetch,
     createBlog: createMutation.mutate,
     updateBlog: updateMutation.mutate,
     deleteBlog: deleteMutation.mutate,
     updateCover: updateCoverMutation.mutate,
-    
     // Mutation states
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
     isUpdatingCover: updateCoverMutation.isPending,
-    
     // Mutation errors
     createError: createMutation.error,
     updateError: updateMutation.error,
     deleteError: deleteMutation.error,
   };
 }
-
 /**
  * Hook to fetch single blog by ID
  */
 export function useBlog(id: string, enabled = true) {
   const { isAuthenticated } = useAuthStore();
-  
   return useQuery({
     queryKey: ['blogs', id],
     queryFn: () => BlogsService.getBlog(id),

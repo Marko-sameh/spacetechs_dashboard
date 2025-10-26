@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { createOptimizedIntersectionObserver } from '../../utils/performanceOptimizer';
-
 interface OptimizedLazyImageProps {
   src: string;
   alt: string;
@@ -12,7 +11,6 @@ interface OptimizedLazyImageProps {
   width?: number;
   height?: number;
 }
-
 /**
  * Highly optimized lazy loading image component that prevents forced reflows
  */
@@ -32,21 +30,17 @@ export const OptimizedLazyImage: React.FC<OptimizedLazyImageProps> = ({
   const [isInView, setIsInView] = useState(priority);
   const imgRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
     onLoad?.();
   }, [onLoad]);
-
   const handleError = useCallback(() => {
     setHasError(true);
     onError?.();
   }, [onError]);
-
   // Optimized intersection observer
   useEffect(() => {
     if (priority || !containerRef.current) return;
-
     const observer = createOptimizedIntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -57,12 +51,9 @@ export const OptimizedLazyImage: React.FC<OptimizedLazyImageProps> = ({
       },
       { rootMargin: '100px' }
     );
-
     observer.observe(containerRef.current);
-
     return () => observer.disconnect();
   }, [priority]);
-
   // Preload critical images
   useEffect(() => {
     if (priority && src) {
@@ -73,7 +64,6 @@ export const OptimizedLazyImage: React.FC<OptimizedLazyImageProps> = ({
       document.head.appendChild(link);
     }
   }, [priority, src]);
-
   if (hasError) {
     return (
       <div 
@@ -85,7 +75,6 @@ export const OptimizedLazyImage: React.FC<OptimizedLazyImageProps> = ({
       </div>
     );
   }
-
   return (
     <div 
       ref={containerRef}
@@ -102,7 +91,6 @@ export const OptimizedLazyImage: React.FC<OptimizedLazyImageProps> = ({
           }}
         />
       )}
-      
       {isInView && (
         <img
           ref={imgRef}

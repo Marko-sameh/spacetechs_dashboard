@@ -1,5 +1,4 @@
 import React from 'react';
-
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -8,7 +7,6 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   onLimitChange: (limit: number) => void;
 }
-
 export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
@@ -19,11 +17,9 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const startItem = (currentPage - 1) * limit + 1;
   const endItem = Math.min(currentPage * limit, total);
-
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
-    
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -31,25 +27,20 @@ export const Pagination: React.FC<PaginationProps> = ({
     } else {
       const start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
       const end = Math.min(totalPages, start + maxVisible - 1);
-      
       if (start > 1) {
         pages.push(1);
         if (start > 2) pages.push('...');
       }
-      
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
-      
       if (end < totalPages) {
         if (end < totalPages - 1) pages.push('...');
         pages.push(totalPages);
       }
     }
-    
     return pages;
   };
-
   return (
     <div className=" justify-between px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 sm:px-6">
       <div className="flex items-center justify-between flex-1 sm:hidden mb-10">
@@ -71,7 +62,6 @@ export const Pagination: React.FC<PaginationProps> = ({
           Next
         </button>
       </div>
-
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div className="flex items-center space-x-4">
           <p className="text-sm text-gray-700 dark:text-gray-300">
@@ -79,7 +69,6 @@ export const Pagination: React.FC<PaginationProps> = ({
             <span className="font-medium">{endItem}</span> of{' '}
             <span className="font-medium">{total}</span> results
           </p>
-          
           <div className="flex items-center space-x-2">
             <label htmlFor="items-per-page" className="text-sm text-gray-700 dark:text-gray-300">
               Show:
@@ -98,7 +87,6 @@ export const Pagination: React.FC<PaginationProps> = ({
             </select>
           </div>
         </div>
-
         <div>
           <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
             <button
@@ -112,7 +100,6 @@ export const Pagination: React.FC<PaginationProps> = ({
                 <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </button>
-
             {getPageNumbers().map((page, index) => (
               <React.Fragment key={index}>
                 {page === '...' ? (
@@ -135,7 +122,6 @@ export const Pagination: React.FC<PaginationProps> = ({
                 )}
               </React.Fragment>
             ))}
-
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}

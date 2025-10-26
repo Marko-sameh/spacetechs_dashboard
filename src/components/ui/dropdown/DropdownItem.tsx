@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-
 interface DropdownItemProps {
   onItemClick?: () => void;
   tag?: 'a' | 'button';
@@ -7,7 +6,6 @@ interface DropdownItemProps {
   className?: string;
   children: React.ReactNode;
 }
-
 export function DropdownItem({ onItemClick, tag = 'button', to, className = '', children }: DropdownItemProps) {
   if (tag === 'a' && to) {
     return (
@@ -16,7 +14,6 @@ export function DropdownItem({ onItemClick, tag = 'button', to, className = '', 
       </Link>
     );
   }
-
   return (
     <button className={className} onClick={onItemClick}>
       {children}

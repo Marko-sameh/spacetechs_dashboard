@@ -1,5 +1,4 @@
 import { memo, ReactNode } from 'react';
-
 interface ResponsiveGridProps {
   children: ReactNode;
   className?: string;
@@ -11,7 +10,6 @@ interface ResponsiveGridProps {
   gap?: 'sm' | 'md' | 'lg' | 'xl';
   minItemWidth?: string;
 }
-
 const ResponsiveGrid = memo(({
   children,
   className = '',
@@ -25,19 +23,16 @@ const ResponsiveGrid = memo(({
     lg: 'gap-4 sm:gap-6 lg:gap-8',
     xl: 'gap-6 sm:gap-8 lg:gap-10'
   };
-
   const getGridCols = () => {
     if (minItemWidth) {
       return `grid-cols-[repeat(auto-fit,minmax(${minItemWidth},1fr))]`;
     }
-    
     return `
       grid-cols-${cols.mobile || 1}
       ${cols.tablet ? `md:grid-cols-${cols.tablet}` : ''}
       ${cols.desktop ? `lg:grid-cols-${cols.desktop}` : ''}
     `.trim();
   };
-
   return (
     <div className={`
       grid
@@ -49,7 +44,5 @@ const ResponsiveGrid = memo(({
     </div>
   );
 });
-
 ResponsiveGrid.displayName = 'ResponsiveGrid';
-
 export default ResponsiveGrid;

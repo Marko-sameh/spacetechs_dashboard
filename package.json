@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "build:check": "tsc -b && vite build",
+    "build:production": "npm run clean:console && vite build",
+    "clean:console": "node scripts/remove-console-dev.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

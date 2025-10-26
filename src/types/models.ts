@@ -8,7 +8,6 @@ export interface Category {
   updatedAt: string;
   [key: string]: unknown;
 }
-
 export interface Project {
   _id: string;
   title: string;
@@ -29,7 +28,6 @@ export interface Project {
   updatedAt: string;
   [key: string]: unknown;
 }
-
 export interface Blog {
   _id: string;
   title: string;
@@ -50,7 +48,6 @@ export interface Blog {
   updatedAt: string;
   [key: string]: unknown;
 }
-
 export interface User {
   _id: string;
   name: string;
@@ -66,7 +63,6 @@ export interface User {
   updatedAt: string;
   [key: string]: unknown;
 }
-
 // Create interfaces for API requests
 export interface CreateCategoryData {
   name: string;
@@ -75,7 +71,6 @@ export interface CreateCategoryData {
   imageIcon?: string;
   [key: string]: unknown;
 }
-
 export interface CreateProjectData {
   title: string;
   description: string;
@@ -91,7 +86,6 @@ export interface CreateProjectData {
   featured?: boolean;
   [key: string]: unknown;
 }
-
 export interface CreateBlogData {
   title: string;
   category: string;
@@ -101,7 +95,6 @@ export interface CreateBlogData {
   featured?: boolean;
   [key: string]: unknown;
 }
-
 export interface CreateUserData {
   name: string;
   email: string;
@@ -112,25 +105,21 @@ export interface CreateUserData {
   passwordConfirm: string;
   [key: string]: unknown;
 }
-
 export interface UpdatePasswordData {
   passwordCurrent: string;
   password: string;
   passwordConfirm: string;
   [key: string]: unknown;
 }
-
 export interface ForgotPasswordData {
   email: string;
   [key: string]: unknown;
 }
-
 export interface ResetPasswordData {
   password: string;
   passwordConfirm: string;
   [key: string]: unknown;
 }
-
 export interface ApiResponse<T> {
   status: 'success' | 'error';
   results?: number;
@@ -141,7 +130,6 @@ export interface ApiResponse<T> {
     totalPages: number;
   };
 }
-
 export interface QueryParams {
   page?: number;
   limit?: number;
@@ -150,12 +138,10 @@ export interface QueryParams {
   search?: string;
   [key: string]: unknown;
 }
-
 export interface LoginCredentials {
   email: string;
   password: string;
 }
-
 export interface AuthResponse {
   user: User;
   token: string;

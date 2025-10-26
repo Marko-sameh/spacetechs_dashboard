@@ -2,13 +2,11 @@ import { BaseApiService } from './base';
 import { apiClient } from './client';
 import { getErrorMessage } from './base';
 import { Blog, ApiResponse } from '../types/models';
-
 /**
  * Blogs API service
  */
 export class BlogsApi extends BaseApiService<Blog> {
   protected endpoint = '/blogs';
-
   /**
    * Update blog cover image
    */
@@ -24,7 +22,6 @@ export class BlogsApi extends BaseApiService<Blog> {
       throw new Error(getErrorMessage(error, 'Failed to update blog cover'));
     }
   }
-
   /**
    * Delete blog cover image
    */
@@ -39,5 +36,4 @@ export class BlogsApi extends BaseApiService<Blog> {
     }
   }
 }
-
 export const blogsApi = new BlogsApi();

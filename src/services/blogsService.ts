@@ -9,7 +9,6 @@ import {
 } from '../lib/apiClient';
 import { buildQueryParams } from '../lib/buildQueryParams';
 import { Blog, ApiResponse, QueryParams, CreateBlogData } from '../types/models';
-
 /**
  * Blogs service - handles all blog-related API operations
  * Matches API documentation exactly
@@ -23,7 +22,6 @@ export class BlogsService {
     const response = await apiGetBlogs(queryString);
     return response.data;
   }
-
   /**
    * GET /blogs/:id - Get a single blog post by ID
    */
@@ -31,7 +29,6 @@ export class BlogsService {
     const response = await apiGetBlog(id);
     return response.data.data.blog;
   }
-
   /**
    * POST /blogs/ - Create a new blog post
    */
@@ -39,7 +36,6 @@ export class BlogsService {
     const response = await apiCreateBlog(data);
     return response.data.data.blog;
   }
-
   /**
    * PATCH /blogs/:id - Update a blog post
    */
@@ -47,14 +43,12 @@ export class BlogsService {
     const response = await apiUpdateBlog(id, data);
     return response.data.data.blog;
   }
-
   /**
    * DELETE /blogs/:id - Delete a blog post
    */
   static async deleteBlog(id: string): Promise<void> {
     await apiDeleteBlog(id);
   }
-
   /**
    * PATCH /blogs/:id/updateCover - Upload or update blog cover image
    */
@@ -62,7 +56,6 @@ export class BlogsService {
     const response = await updateBlogCover(id, formData);
     return response.data.data.blog;
   }
-
   /**
    * DELETE /blogs/:id/deleteCover - Delete blog cover image
    */

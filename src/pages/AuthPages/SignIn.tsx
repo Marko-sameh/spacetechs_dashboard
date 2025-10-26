@@ -4,20 +4,16 @@ import AuthLayout from "./AuthPageLayout";
 import SignInForm from "../../components/auth/SignInForm";
 import { useAuth } from "../../hooks/useAuth";
 import { LoadingState } from "../../components/ui";
-
 export default function SignIn() {
   const { isAuthenticated, loading } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-
   if (loading) {
     return <LoadingState size="lg" text="Loading..." />;
   }
-
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }
-
   return (
     <>
       <PageMeta

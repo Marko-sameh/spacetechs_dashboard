@@ -1,7 +1,6 @@
 /**
  * Bundle optimization utilities to reduce JavaScript payload
  */
-
 // Dynamic imports for code splitting
 export const loadComponent = async (componentPath: string) => {
   try {
@@ -12,12 +11,10 @@ export const loadComponent = async (componentPath: string) => {
     return null;
   }
 };
-
 // Lazy load heavy dependencies
 export const loadChartLibrary = () => import('react-apexcharts');
 export const loadDatePicker = () => import('react-datepicker');
 export const loadCalendar = () => import('@fullcalendar/react');
-
 // Tree-shake unused utilities
 export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
@@ -29,7 +26,6 @@ export const debounce = <T extends (...args: unknown[]) => unknown>(
     timeout = setTimeout(() => func(...args), wait);
   };
 };
-
 export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
@@ -43,17 +39,13 @@ export const throttle = <T extends (...args: unknown[]) => unknown>(
     }
   };
 };
-
 // Optimize object operations
 export const shallowEqual = (obj1: Record<string, unknown>, obj2: Record<string, unknown>): boolean => {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
-  
   if (keys1.length !== keys2.length) return false;
-  
   return keys1.every(key => obj1[key] === obj2[key]);
 };
-
 // Memory-efficient array operations
 export const chunk = <T>(array: T[], size: number): T[][] => {
   const chunks: T[][] = [];
@@ -62,7 +54,6 @@ export const chunk = <T>(array: T[], size: number): T[][] => {
   }
   return chunks;
 };
-
 // Optimize string operations
 export const formatBytes = (bytes: number, decimals = 2): string => {
   if (bytes === 0) return '0 Bytes';

@@ -1,11 +1,9 @@
 import type React from "react";
 import { useState } from "react";
-
 interface Option {
   value: string;
   label: string;
 }
-
 interface MultiSelectProps {
   label: string;
   options: Option[];
@@ -14,7 +12,6 @@ interface MultiSelectProps {
   disabled?: boolean;
   placeholder?: string;
 }
-
 const MultiSelect: React.FC<MultiSelectProps> = ({
   label,
   options,
@@ -26,36 +23,29 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const [selectedOptions, setSelectedOptions] =
     useState<string[]>(defaultSelected);
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => {
     if (!disabled) setIsOpen((prev) => !prev);
   };
-
   const handleSelect = (optionValue: string) => {
     const newSelectedOptions = selectedOptions.includes(optionValue)
       ? selectedOptions.filter((value) => value !== optionValue)
       : [...selectedOptions, optionValue];
-
     setSelectedOptions(newSelectedOptions);
     onChange?.(newSelectedOptions);
   };
-
   const removeOption = (value: string) => {
     const newSelectedOptions = selectedOptions.filter((opt) => opt !== value);
     setSelectedOptions(newSelectedOptions);
     onChange?.(newSelectedOptions);
   };
-
   const selectedValuesText = selectedOptions.map(
     (value) => options.find((option) => option.value === value)?.label || ""
   );
-
   return (
     <div className="w-full">
       <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
         {label}
       </label>
-
       <div className="relative z-20 inline-block w-full">
         <div className="relative flex flex-col items-center">
           <div onClick={toggleDropdown} className="w-full">
@@ -129,7 +119,6 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
               </div>
             </div>
           </div>
-
           {isOpen && (
             <div
               className="absolute left-0 z-40 w-full overflow-y-auto bg-white rounded-lg shadow-sm top-full max-h-select dark:bg-gray-900"
@@ -163,5 +152,4 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     </div>
   );
 };
-
 export default MultiSelect;

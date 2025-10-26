@@ -3,19 +3,16 @@ import { useDashboardStore } from '../store/dashboardStore';
 import { UserService } from '../services/userService';
 import { User, QueryParams } from '../types/models';
 import { useMemo } from 'react';
-
 interface UseUsersOptions {
   enabled?: boolean;
   overrides?: Partial<QueryParams>;
 }
-
 /**
  * Users hook - manages user data with admin functionality and global state
  */
 export function useUsers(options: UseUsersOptions = {}) {
   const queryClient = useQueryClient();
   const { filters, sort, search, page, limit } = useDashboardStore();
-  
   const queryParams = useMemo(() => ({
     ...filters,
     sort,
@@ -24,7 +21,6 @@ export function useUsers(options: UseUsersOptions = {}) {
     limit,
     ...options.overrides,
   }), [filters, sort, search, page, limit, options.overrides]);
-
   // Fetch users query
   const {
     data: response,
@@ -46,7 +42,6 @@ export function useUsers(options: UseUsersOptions = {}) {
       total: data.results || 0,
     }),
   });
-
   // Create user mutation
   const createMutation = useMutation({
     mutationFn: UserService.createUser,
@@ -54,7 +49,6 @@ export function useUsers(options: UseUsersOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
-
   // Update user mutation
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<User> }) =>
@@ -63,7 +57,6 @@ export function useUsers(options: UseUsersOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
-
   // Delete user mutation
   const deleteMutation = useMutation({
     mutationFn: UserService.deleteUser,
@@ -71,37 +64,31 @@ export function useUsers(options: UseUsersOptions = {}) {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
-
   return {
     // Data
     users: response?.users || [],
     paginationMeta: response?.pagination,
     total: response?.total || 0,
-    
     // States
     isLoading,
     isError,
     error,
     isFetching,
-    
     // Actions
     refetch,
     createUser: createMutation.mutate,
     updateUser: updateMutation.mutate,
     deleteUser: deleteMutation.mutate,
-    
     // Mutation states
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
-    
     // Mutation errors
     createError: createMutation.error,
     updateError: updateMutation.error,
     deleteError: deleteMutation.error,
   };
 }
-
 /**
  * Hook to fetch single user by ID
  */

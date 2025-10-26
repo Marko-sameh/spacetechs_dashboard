@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-
 /**
  * Higher-order component for memoization
  */
@@ -9,7 +8,6 @@ export function withMemo<T extends Record<string, unknown>>(
 ) {
   return memo(Component, areEqual);
 }
-
 /**
  * Generic memoized wrapper component
  */
@@ -21,5 +19,4 @@ const MemoizedComponent = memo(<T extends Record<string, unknown>>({
 } & T) => {
   return <Component {...(props as unknown as T)} />;
 });
-
 export { MemoizedComponent };

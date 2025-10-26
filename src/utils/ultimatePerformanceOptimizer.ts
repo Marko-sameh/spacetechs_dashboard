@@ -1,7 +1,6 @@
 /**
  * Ultimate performance optimizer - eliminates all reflows and optimizes critical path
  */
-
 // Eliminate forced reflows completely
 class ReflowEliminator {
   private static instance: ReflowEliminator;
@@ -9,51 +8,40 @@ class ReflowEliminator {
   private rafId: number | null = null;
   private readQueue: (() => void)[] = [];
   private writeQueue: (() => void)[] = [];
-
   static getInstance() {
     if (!ReflowEliminator.instance) {
       ReflowEliminator.instance = new ReflowEliminator();
     }
     return ReflowEliminator.instance;
   }
-
   read(key: string, fn: () => unknown) {
     if (this.measurements.has(key)) {
       return this.measurements.get(key);
     }
-    
     this.readQueue.push(() => {
       this.measurements.set(key, fn());
     });
-    
     this.schedule();
     return null;
   }
-
   write(fn: () => void) {
     this.writeQueue.push(fn);
     this.schedule();
   }
-
   private schedule() {
     if (this.rafId) return;
-    
     this.rafId = requestAnimationFrame(() => {
       // Execute all reads first
       this.readQueue.forEach(read => read());
       this.readQueue = [];
-      
       // Then all writes
       this.writeQueue.forEach(write => write());
       this.writeQueue = [];
-      
       this.rafId = null;
     });
   }
 }
-
 export const reflowEliminator = ReflowEliminator.getInstance();
-
 // Critical path optimizer
 export const optimizeCriticalPath = () => {
   // Inline critical CSS immediately
@@ -66,7 +54,6 @@ export const optimizeCriticalPath = () => {
     body{font-display:swap}
   `;
   document.head.appendChild(style);
-  
   // Preload only critical LCP image
   const link = document.createElement('link');
   link.rel = 'preload';
@@ -75,12 +62,10 @@ export const optimizeCriticalPath = () => {
   (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority = 'high';
   document.head.appendChild(link);
 };
-
 // Remove all unnecessary preconnects
 export const optimizePreconnects = () => {
   // Remove existing preconnects
   document.querySelectorAll('link[rel="preconnect"]').forEach(link => link.remove());
-  
   // Add only essential one
   const link = document.createElement('link');
   link.rel = 'preconnect';

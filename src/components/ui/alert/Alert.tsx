@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-
 interface AlertProps {
   variant: "success" | "error" | "warning" | "info"; // Alert type
   title: string; // Title of the alert
@@ -8,7 +7,6 @@ interface AlertProps {
   linkHref?: string; // Link URL
   linkText?: string; // Link text
 }
-
 const Alert: React.FC<AlertProps> = ({
   variant,
   title,
@@ -40,7 +38,6 @@ const Alert: React.FC<AlertProps> = ({
       icon: "text-blue-light-500",
     },
   };
-
   // Icon for each variant
   const icons = {
     success: (
@@ -110,7 +107,6 @@ const Alert: React.FC<AlertProps> = ({
       </svg>
     ),
   };
-
   return (
     <div
       className={`rounded-xl border p-4 fixed top-5 left-1/2 -translate-x-1/2 z-50   ${variantClasses[variant].container}`}
@@ -119,14 +115,11 @@ const Alert: React.FC<AlertProps> = ({
         <div className={`-mt-0.5 ${variantClasses[variant].icon}`}>
           {icons[variant]}
         </div>
-
         <div>
           <h4 className="mb-1 text-sm font-semibold text-gray-800 dark:text-white/90">
             {title}
           </h4>
-
           <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
-
           {showLink && (
             <Link
               to={linkHref}
@@ -140,5 +133,4 @@ const Alert: React.FC<AlertProps> = ({
     </div>
   );
 };
-
 export default Alert;

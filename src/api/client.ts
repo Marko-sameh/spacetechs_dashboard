@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { config } from '../config';
-
 /**
  * Unified Axios client with authentication interceptors
  */
@@ -12,7 +11,6 @@ export const apiClient = axios.create({
     'X-API-Key': config.api.apiKey,
   },
 });
-
 // Request interceptor to attach auth token
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -26,7 +24,6 @@ apiClient.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 // Response interceptor for global error handling
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
@@ -43,5 +40,4 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 export default apiClient;

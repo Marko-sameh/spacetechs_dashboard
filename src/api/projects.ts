@@ -2,13 +2,11 @@ import { BaseApiService } from './base';
 import { apiClient } from './client';
 import { getErrorMessage } from './base';
 import { Project, ApiResponse } from '../types/models';
-
 /**
  * Projects API service
  */
 export class ProjectsApi extends BaseApiService<Project> {
   protected endpoint = '/projects';
-
   /**
    * Update project media (images/videos)
    */
@@ -24,7 +22,6 @@ export class ProjectsApi extends BaseApiService<Project> {
       throw new Error(getErrorMessage(error, 'Failed to update project media'));
     }
   }
-
   /**
    * Delete project media
    */
@@ -40,5 +37,4 @@ export class ProjectsApi extends BaseApiService<Project> {
     }
   }
 }
-
 export const projectsApi = new ProjectsApi();

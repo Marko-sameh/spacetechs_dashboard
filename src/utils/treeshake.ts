@@ -5,7 +5,6 @@ export const loadContextsLazy = () => ({
   BlogsContext: () => import('../context/BlogsContext'),
   UserContext: () => import('../context/UserContext')
 });
-
 export const loadComponentsLazy = () => ({
   ResponsiveImage: () => import('../components/ui/ResponsiveImage'),
   ResponsiveGrid: () => import('../components/ui/ResponsiveGrid'),

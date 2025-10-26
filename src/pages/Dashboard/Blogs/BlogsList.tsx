@@ -11,11 +11,6 @@ import Alert from '../../../components/ui/alert/Alert';
 import { ListPageHeader } from '../../../components/common/ListPageHeader';
 import { Pagination } from '../../../components/common/Pagination';
 import BlogForm from './BlogForm';
-
-
-
-
-
 // Memoized table row component for better performance
 const BlogTableRow = React.memo(({ blog, onEdit, onDelete }: {
   blog: Blog;
@@ -63,9 +58,7 @@ const BlogTableRow = React.memo(({ blog, onEdit, onDelete }: {
     </td>
   </tr>
 ));
-
 BlogTableRow.displayName = 'BlogTableRow';
-
 const BlogsList: React.FC = () => {
   const [filters, setFilters] = useState({ category: '', featured: '', tags: '', search: '' });
   const [sortField, setSortField] = useState<string>('title');
@@ -76,30 +69,23 @@ const BlogsList: React.FC = () => {
   const [deleteConfirm, setDeleteConfirm] = useState<Blog | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
   const { blogs, loading, error, removeBlog, refreshBlogs } = useBlogs();
   const { categories } = useCategories();
-
   useEffect(() => {
     refreshBlogs();
   },[]);
-
   const filteredAndSortedBlogs = useMemo(() => {
     if (!blogs) return [];
-    
     const filtered = blogs.filter((blog: Blog) => {
       const matchesSearch = !filters.search || 
         blog.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
         blog.content?.toLowerCase().includes(filters.search.toLowerCase()) ||
         blog.author?.toLowerCase().includes(filters.search.toLowerCase());
-      
       const matchesCategory = !filters.category || blog.category === filters.category;
       const matchesFeatured = !filters.featured || blog.featured?.toString() === filters.featured;
       const matchesTags = !filters.tags || blog.tags?.some((tag: string) => tag.toLowerCase().includes(filters.tags.toLowerCase()));
-      
       return matchesSearch && matchesCategory && matchesFeatured && matchesTags;
     });
-    
     return filtered.sort((a: Blog, b: Blog) => {
       const aVal = (a as unknown as Record<string, unknown>)[sortField] || '';
       const bVal = (b as unknown as Record<string, unknown>)[sortField] || '';
@@ -107,14 +93,11 @@ const BlogsList: React.FC = () => {
       return sortDirection === 'asc' ? comparison : -comparison;
     });
   }, [blogs, filters, sortField, sortDirection]);
-
   const paginatedBlogs = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredAndSortedBlogs.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredAndSortedBlogs, currentPage, itemsPerPage]);
-
   const totalPages = Math.ceil(filteredAndSortedBlogs.length / itemsPerPage);
-
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -135,10 +118,8 @@ const BlogsList: React.FC = () => {
       setTimeout(() => setAlert(null), 5000);
     }
   };
-
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} />;
-
   return (
     <div className="p-6 w-[100%]">
       {alert && (
@@ -173,7 +154,6 @@ const BlogsList: React.FC = () => {
         onAddClick={() => setIsFormOpen(true)}
         addButtonText="Add Blog"
       />
-
       {paginatedBlogs.length === 0 ? (
         <EmptyState
           title={filters.search ? 'No blogs found' : 'No blogs yet'}
@@ -237,7 +217,6 @@ const BlogsList: React.FC = () => {
         </table>
         </div>
       )}
-
       {/* Pagination */}
       {filteredAndSortedBlogs.length > 0 && (
         <div className="mt-6">
@@ -254,7 +233,6 @@ const BlogsList: React.FC = () => {
           />
         </div>
       )}
-
       <Modal
         isOpen={isFormOpen}
         onClose={() => {
@@ -278,7 +256,6 @@ const BlogsList: React.FC = () => {
           />
         </div>
       </Modal>
-
       <Modal
         isOpen={!!deleteConfirm}
         onClose={() => setDeleteConfirm(null)}
@@ -306,5 +283,4 @@ const BlogsList: React.FC = () => {
     </div>
   );
 };
-
 export default BlogsList;

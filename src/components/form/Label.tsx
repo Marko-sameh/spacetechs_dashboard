@@ -1,13 +1,11 @@
 import { FC, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
-
 interface LabelProps {
   htmlFor?: string;
   children: ReactNode;
   className?: string;
 }
-
 const Label: FC<LabelProps> = ({ htmlFor, children, className }) => {
   return (
     <label
@@ -23,5 +21,4 @@ const Label: FC<LabelProps> = ({ htmlFor, children, className }) => {
     </label>
   );
 };
-
 export default Label;

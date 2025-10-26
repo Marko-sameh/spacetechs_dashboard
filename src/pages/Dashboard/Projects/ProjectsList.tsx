@@ -12,7 +12,6 @@ import { ListPageHeader } from '../../../components/common/ListPageHeader';
 import { OptimizedLazyImage } from '../../../components/common/OptimizedLazyImage';
 import { Pagination } from '../../../components/common/Pagination';
 import ProjectForm from './ProjectForm';
-
 interface Project {
   _id: string;
   title?: string;
@@ -32,12 +31,10 @@ interface Project {
   createdAt?: string;
   updatedAt?: string;
 }
-
 interface Category {
   _id: string;
   name: string;
 }
-
 // Memoized mobile card component for better performance
 const ProjectMobileCard = memo(({ project, onEdit, onDelete }: {
   project: Project;
@@ -62,11 +59,9 @@ const ProjectMobileCard = memo(({ project, onEdit, onDelete }: {
         {project.status}
       </Badge>
     </div>
-    
     <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
       {project.description}
     </p>
-    
     <div className="flex flex-wrap gap-1">
       {project.technologies?.slice(0, 3).map((tech: string, index: number) => (
         <span key={index} className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">
@@ -77,7 +72,6 @@ const ProjectMobileCard = memo(({ project, onEdit, onDelete }: {
         <span className="text-xs text-gray-400">+{project.technologies.length - 3}</span>
       )}
     </div>
-    
     <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
       <div className="flex space-x-2 text-xs">
         {project.githubUrl && (
@@ -93,7 +87,6 @@ const ProjectMobileCard = memo(({ project, onEdit, onDelete }: {
           </a>
         )}
       </div>
-      
       <div className="flex space-x-2">
         <button
           onClick={() => onEdit(project)}
@@ -111,9 +104,7 @@ const ProjectMobileCard = memo(({ project, onEdit, onDelete }: {
     </div>
   </div>
 ));
-
 ProjectMobileCard.displayName = 'ProjectMobileCard';
-
 // Memoized desktop table row component
 const ProjectTableRow = memo(({ project, onEdit, onDelete }: {
   project: Project;
@@ -218,9 +209,7 @@ const ProjectTableRow = memo(({ project, onEdit, onDelete }: {
     </td>
   </tr>
 ));
-
 ProjectTableRow.displayName = 'ProjectTableRow';
-
 const ProjectsList: React.FC = () => {
   const [filters, setFilters] = useState({ category: '', featured: '', search: '' });
   const [sortField, setSortField] = useState<keyof Project>('title');
@@ -232,10 +221,8 @@ const ProjectsList: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
   const { projects, loading, error, removeProject, refreshProjects } = useProjects();
   const { categories, refreshCategories } = useCategories();
-
   // Zero reflow resize handling
   useEffect(() => {
     const handleResize = () => {
@@ -245,32 +232,25 @@ const ProjectsList: React.FC = () => {
         return width;
       });
     };
-    
     window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
   useEffect(() => {
     refreshProjects();
     refreshCategories();
   }, [refreshProjects, refreshCategories]);
-  
   const filteredAndSortedProjects = useMemo(() => {
     if (!projects) return [];
-    
     const filtered = projects.filter((project) => {
       const matchesSearch = !filters.search || 
         project.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
         project.description?.toLowerCase().includes(filters.search.toLowerCase()) ||
         project.status?.toLowerCase().includes(filters.search.toLowerCase()) ||
         project.technologies?.some((tech: string) => tech.toLowerCase().includes(filters.search.toLowerCase()));
-      
       const matchesCategory = !filters.category || (typeof project.category === 'string' ? project.category === filters.category : (project.category as any)?._id === filters.category);
       const matchesFeatured = !filters.featured || project.featured?.toString() === filters.featured;
-      
       return matchesSearch && matchesCategory && matchesFeatured;
     });
-    
     return filtered.sort((a, b) => {
       const aVal = (a as unknown as Record<string, unknown>)[sortField] || '';
       const bVal = (b as unknown as Record<string, unknown>)[sortField] || '';
@@ -278,14 +258,11 @@ const ProjectsList: React.FC = () => {
       return sortDirection === 'asc' ? comparison : -comparison;
     });
   }, [projects, filters, sortField, sortDirection]);
-
   const paginatedProjects = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredAndSortedProjects.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredAndSortedProjects, currentPage, itemsPerPage]);
-
   const totalPages = Math.ceil(filteredAndSortedProjects.length / itemsPerPage);
-
   const handleSort = useCallback((field: keyof Project) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -294,16 +271,13 @@ const ProjectsList: React.FC = () => {
       setSortDirection('asc');
     }
   }, [sortField, sortDirection]);
-
   const handleEdit = useCallback((project: Project) => {
     setEditingProject(project);
     setIsFormOpen(true);
   }, []);
-
   const handleDeleteClick = useCallback((project: Project) => {
     setDeleteConfirm(project);
   }, []);
-
   const handleDelete = useCallback(async (id: string) => {
     try {
       await removeProject(id);
@@ -316,7 +290,6 @@ const ProjectsList: React.FC = () => {
       setTimeout(() => setAlert(null), 5000);
     }
   }, [removeProject]);
-
   if (loading) return <LoadingSpinner />;
   if (error) return (
     <div className="p-4 sm:p-6">
@@ -329,7 +302,6 @@ const ProjectsList: React.FC = () => {
       </button>
     </div>
   );
-
   return (
     <div className="p-3 sm:p-4 lg:p-6">
       {alert && (
@@ -341,7 +313,6 @@ const ProjectsList: React.FC = () => {
           />
         </div>
       )}
-      
       <ListPageHeader
         title="Projects"
         searchValue={filters.search}
@@ -365,7 +336,6 @@ const ProjectsList: React.FC = () => {
         onAddClick={() => setIsFormOpen(true)}
         addButtonText="Add Project"
       />
-
       {/* Projects List */}
       {paginatedProjects.length === 0 ? (
         <EmptyState
@@ -445,7 +415,6 @@ const ProjectsList: React.FC = () => {
           )}
         </>
       )}
-
       {/* Pagination */}
       {filteredAndSortedProjects.length > 0 && (
         <div className="mt-6">
@@ -462,7 +431,6 @@ const ProjectsList: React.FC = () => {
           />
         </div>
       )}
-
       {/* Form Modal */}
       <Modal
         isOpen={isFormOpen}
@@ -487,7 +455,6 @@ const ProjectsList: React.FC = () => {
           />
         </div>
       </Modal>
-
       {/* Delete Confirmation */}
       <Modal
         isOpen={!!deleteConfirm}
@@ -518,5 +485,4 @@ const ProjectsList: React.FC = () => {
     </div>
   );
 };
-
 export default ProjectsList;

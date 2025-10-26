@@ -11,7 +11,6 @@ export const preloadCriticalResources = () => {
   };
   img.src = '/images/dark_logo_wbg.png';
 };
-
 // Initialize preloader only in production
 if (import.meta.env.PROD) {
   if (document.readyState === 'loading') {

@@ -5,11 +5,9 @@ import { BlogsProvider } from './BlogsContext';
 import { UserProvider } from './UserContext';
 import { SidebarProvider } from './SidebarContext';
 import { ThemeProvider } from './ThemeContext';
-
 interface AppProviderProps {
   children: ReactNode;
 }
-
 /**
  * Unified app provider that combines all context providers
  */

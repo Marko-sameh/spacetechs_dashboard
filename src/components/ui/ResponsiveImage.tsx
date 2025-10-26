@@ -1,5 +1,4 @@
 import { memo, useState, useCallback } from 'react';
-
 interface ResponsiveImageProps {
   src: string;
   alt: string;
@@ -12,7 +11,6 @@ interface ResponsiveImageProps {
   onLoad?: () => void;
   onError?: () => void;
 }
-
 const ResponsiveImage = memo(({
   src,
   alt,
@@ -28,30 +26,25 @@ const ResponsiveImage = memo(({
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(placeholder);
-
   const handleLoad = useCallback(() => {
     setIsLoading(false);
     setCurrentSrc(src);
     onLoad?.();
   }, [src, onLoad]);
-
   const handleError = useCallback(() => {
     setIsLoading(false);
     setHasError(true);
     onError?.();
   }, [onError]);
-
   // Create responsive srcSet for different screen sizes
   const createSrcSet = useCallback((baseSrc: string) => {
     if (!baseSrc || baseSrc === placeholder) return '';
-    
     // Generate different sizes (you can customize this based on your needs)
     const sizes = [320, 640, 768, 1024, 1280, 1536];
     return sizes
       .map(size => `${baseSrc}?w=${size} ${size}w`)
       .join(', ');
   }, [placeholder]);
-
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {/* Placeholder/Loading state */}
@@ -70,7 +63,6 @@ const ResponsiveImage = memo(({
           </svg>
         </div>
       )}
-
       {/* Error state */}
       {hasError && (
         <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
@@ -90,7 +82,6 @@ const ResponsiveImage = memo(({
           </div>
         </div>
       )}
-
       {/* Main image */}
       <img
         src={currentSrc}
@@ -114,7 +105,5 @@ const ResponsiveImage = memo(({
     </div>
   );
 });
-
 ResponsiveImage.displayName = 'ResponsiveImage';
-
 export default ResponsiveImage;

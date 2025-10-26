@@ -6,7 +6,6 @@ export const createInlineIcon = (path: string, size = 20) => ({
   fill: 'currentColor',
   children: path
 });
-
 // Common icon paths for reuse
 export const ICON_PATHS = {
   grid: 'M3 3h6v6H3V3zm8 0h6v6h-6V3zM3 11h6v6H3v-6zm8 0h6v6h-6v-6z',

@@ -8,7 +8,6 @@ import Alert from '../../../components/ui/alert/Alert';
 import { ListPageHeader } from '../../../components/common/ListPageHeader';
 import CategoryForm from './CategoryForm';
 import { Category } from '../../../types/models';
-
 const CategoriesList: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -17,34 +16,25 @@ const CategoriesList: React.FC = () => {
   const [sortField, setSortField] = useState<keyof Category>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [alert, setAlert] = useState<{type: 'success' | 'error', message: string} | null>(null);
-
   const [dateFilter, setDateFilter] = useState('');
-
   const { categories, loading, error, removeCategory, refreshCategories } = useCategories();
-
   useEffect(() => {
     refreshCategories();
   }, [refreshCategories]);
-
   const filteredAndSortedCategories = useMemo(() => {
     if (!categories) return [];
-    
     const filtered = categories.filter(category => {
       const matchesSearch = category.name.toLowerCase().includes(search.toLowerCase()) ||
         category.slug.toLowerCase().includes(search.toLowerCase()) ||
         (category.description || '').toLowerCase().includes(search.toLowerCase());
-      
       const matchesDate = !dateFilter || 
         (dateFilter === 'recent' && new Date(category.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) ||
         (dateFilter === 'older' && new Date(category.createdAt) <= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
-      
       return matchesSearch && matchesDate;
     });
-    
     return filtered.sort((a, b) => {
       let aVal: string | number | Date;
       let bVal: string | number | Date;
-      
       if (sortField === 'createdAt' || sortField === 'updatedAt') {
         aVal = new Date(a[sortField] as string);
         bVal = new Date(b[sortField] as string);
@@ -58,7 +48,6 @@ const CategoriesList: React.FC = () => {
       }
     });
   }, [categories, search, sortField, sortDirection, dateFilter]);
-
   const handleSort = (field: keyof Category) => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -67,7 +56,6 @@ const CategoriesList: React.FC = () => {
       setSortDirection('asc');
     }
   };
-
   const handleDelete = async (id: string) => {
     try {
       await removeCategory(id);
@@ -80,10 +68,8 @@ const CategoriesList: React.FC = () => {
       setTimeout(() => setAlert(null), 5000);
     }
   };
-
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message="Failed to load categories" />;
-
   return (
     <div className="p-6">
       {alert && (
@@ -129,7 +115,6 @@ const CategoriesList: React.FC = () => {
         onAddClick={() => setIsFormOpen(true)}
         addButtonText="Add Category"
       />
-
       {filteredAndSortedCategories.length === 0 ? (
         <EmptyState
           title={search ? 'No categories found' : 'No categories yet'}
@@ -201,7 +186,6 @@ const CategoriesList: React.FC = () => {
           </table>
         </div>
       )}
-
       <Modal
         isOpen={isFormOpen}
         onClose={() => {
@@ -225,7 +209,6 @@ const CategoriesList: React.FC = () => {
           />
         </div>
       </Modal>
-
       <Modal
         isOpen={!!deleteConfirm}
         onClose={() => setDeleteConfirm(null)}
@@ -254,5 +237,4 @@ const CategoriesList: React.FC = () => {
     </div>
   );
 };
-
 export default CategoriesList;

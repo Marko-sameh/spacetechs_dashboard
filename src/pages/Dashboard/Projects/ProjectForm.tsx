@@ -3,16 +3,13 @@ import { useProjects } from '../../../hooks/useProjects';
 import { useCategories } from '../../../hooks/useCategories';
 import { Project, Category, CreateProjectData } from '../../../types/models';
 import { compressImage, validateImageFile } from '../../../utils/imageUtils';
-
 import Select from '../../../components/form/Select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
 interface ProjectFormProps {
   project?: Project | null;
   onSuccess: () => void;
 }
-
 const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -28,22 +25,18 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
     endDate: null as Date | null,
     images: [] as string[],
   });
-
   const { categories } = useCategories();
   const { addProject, editProject } = useProjects();
   const [isLoading, setIsLoading] = useState(false);
-
   const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
-
     for (const file of Array.from(files)) {
       const validationError = validateImageFile(file);
       if (validationError) {
         alert(validationError);
         continue;
       }
-
       try {
         const compressedBase64 = await compressImage(file);
         setFormData(prev => ({
@@ -56,15 +49,12 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
       }
     }
   }, []);
-
   const removeImage = useCallback((index: number) => {
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
     }));
   }, []);
-
-
   useEffect(() => {
     if (project) {
       setFormData({
@@ -83,7 +73,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
       });
     }
   }, [project]);
-
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -102,7 +91,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
         startDate: formData.startDate ? formData.startDate.toISOString() : undefined,
         endDate: formData.endDate ? formData.endDate.toISOString() : undefined,
       };
-      
       if (project) {
         await editProject(project._id, submitData);
       } else {
@@ -115,8 +103,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
       setIsLoading(false);
     }
   }, [formData, project, editProject, addProject, onSuccess]);
-
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,10 +120,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             required
           />
         </div>
-
-
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Client
@@ -152,7 +135,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           placeholder="Client name (optional)"
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Description
@@ -167,7 +149,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           required
         />
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -187,7 +168,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             ))}
           </select>
         </div>
-
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Status
@@ -207,7 +187,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           />
         </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Technologies
@@ -222,7 +201,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           placeholder="Enter technologies separated by commas (e.g., React, Node.js, MongoDB)"
         />
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -238,7 +216,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             placeholderText="Select start date"
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             End Date
@@ -255,7 +232,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           />
         </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Project Images
@@ -268,7 +244,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <p className="text-xs text-gray-500 mt-1">Max 1MB per image. Images will be compressed to 800x600px. Supports JPG, PNG, GIF, WebP</p>
-        
         {formData.images && formData.images.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-2">
             {formData.images.map((image, index) => (
@@ -290,7 +265,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           </div>
         )}
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -306,7 +280,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
             placeholder="https://github.com/username/repo"
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Live Demo URL
@@ -322,9 +295,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           />
         </div>
       </div>
-
-
-
       <div className="flex items-center">
         <input
           type="checkbox"
@@ -339,7 +309,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
           Featured Project
         </label>
       </div>
-
       <div className="flex gap-2 justify-end pt-4">
         <button
           type="button"
@@ -359,5 +328,4 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
     </form>
   );
 };
-
 export default ProjectForm;

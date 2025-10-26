@@ -1,7 +1,6 @@
 /**
  * Extreme performance optimizer - 90+ score guaranteed
  */
-
 // Complete reflow elimination
 class ZeroReflowEngine {
   private static instance: ZeroReflowEngine;
@@ -9,23 +8,19 @@ class ZeroReflowEngine {
   private writes: (() => void)[] = [];
   private reads: (() => void)[] = [];
   private scheduled = false;
-
   static get() {
     return ZeroReflowEngine.instance ||= new ZeroReflowEngine();
   }
-
   read(key: string, fn: () => unknown) {
     if (this.cache.has(key)) return this.cache.get(key);
     this.reads.push(() => this.cache.set(key, fn()));
     this.schedule();
     return null;
   }
-
   write(fn: () => void) {
     this.writes.push(fn);
     this.schedule();
   }
-
   private schedule() {
     if (this.scheduled) return;
     this.scheduled = true;
@@ -38,14 +33,11 @@ class ZeroReflowEngine {
     });
   }
 }
-
 export const zeroReflow = ZeroReflowEngine.get();
-
 // Eliminate all preconnects and optimize critical path
 export const extremeOptimization = () => {
   // Remove ALL existing preconnects
   document.querySelectorAll('link[rel="preconnect"], link[rel="dns-prefetch"]').forEach(l => l.remove());
-  
   // Inline ALL critical CSS
   const style = document.createElement('style');
   style.textContent = `
@@ -58,7 +50,6 @@ export const extremeOptimization = () => {
     img{contain:layout}
   `;
   document.head.appendChild(style);
-  
   // Preload ONLY LCP image with highest priority
   const link = document.createElement('link');
   link.rel = 'preload';
@@ -67,7 +58,6 @@ export const extremeOptimization = () => {
   (link as HTMLLinkElement & { fetchPriority?: string }).fetchPriority = 'high';
   document.head.appendChild(link);
 };
-
 // Disable WebSocket completely for bfcache
 export const disableWebSocket = () => {
   (window as Window & { WebSocket?: unknown }).WebSocket = class {

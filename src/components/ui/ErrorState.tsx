@@ -1,11 +1,9 @@
 import React from 'react';
-
 interface ErrorStateProps {
   error: string;
   onRetry?: () => void;
   className?: string;
 }
-
 /**
  * Unified error state component
  */
