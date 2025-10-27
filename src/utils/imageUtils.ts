@@ -29,7 +29,7 @@ export const compressImage = (file: File, maxWidth = 800, maxHeight = 600, quali
     reader.readAsDataURL(file);
   });
 };
-export const validateImageFile = (file: File, maxSize = 1024 * 1024): string | null => {
+export const validateImageFile = (file: File, maxSize = 3 * 1024 * 1024): string | null => {
   if (!file.type.startsWith('image/')) {
     return 'Please select only image files';
   }

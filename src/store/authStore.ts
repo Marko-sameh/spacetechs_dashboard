@@ -42,7 +42,22 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   isAuthenticated: false,
   initialize: () => {
     const token = localStorage.getItem('token');
+    const tokenExpiry = localStorage.getItem('tokenExpiry');
     const userStr = localStorage.getItem('user');
+    
+    // Check token expiry first
+    if (token && tokenExpiry) {
+      const now = Date.now();
+      if (now >= parseInt(tokenExpiry)) {
+        localStorage.clear();
+        set({ user: null, token: null, isAuthenticated: false });
+        if (typeof window !== 'undefined' && window.location.pathname !== '/signin') {
+          window.location.replace('/signin');
+        }
+        return;
+      }
+    }
+    
     if (token && userStr) {
       try {
         const user = JSON.parse(userStr);
@@ -65,7 +80,9 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
       const response = await apiClient.post('/users/login', credentials);
       if (response.data.status === 'success') {
         const { user, token } = { user: response.data.data.user, token: response.data.token };
+        const expiry = Date.now() + (2 * 60 * 60 * 1000); // 2 hours
         localStorage.setItem('token', token);
+        localStorage.setItem('tokenExpiry', expiry.toString());
         localStorage.setItem('user', JSON.stringify(user));
         set({ user, token, isAuthenticated: true });
       } else {
@@ -78,7 +95,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   logout: () => {
     localStorage.clear();
     set({ user: null, token: null, isAuthenticated: false });
-    window.location.href = '/signin';
+    window.location.replace('/signin');
   },
   forgotPassword: async (data: ForgotPasswordData) => {
     try {
@@ -91,7 +108,9 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
     try {
       const response = await resetPassword(resetToken, data);
       const { user, token } = { user: response.data.data.user, token: response.data.token };
+      const expiry = Date.now() + (2 * 60 * 60 * 1000); // 2 hours
       localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpiry', expiry.toString());
       localStorage.setItem('user', JSON.stringify(user));
       set({ user, token, isAuthenticated: true });
     } catch (error) {

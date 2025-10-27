@@ -25,33 +25,50 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const fetchUsers = async (params: QueryParams = {}) => {
     const token = localStorage.getItem('token');
     if (!token) {
+      setError('Authentication required');
       setLoading(false);
       return;
     }
     try {
       setLoading(true);
+      setError(null);
       const response = await UserService.getUsers(params);
       setUsers(response.data.users);
       setPagination(response.pagination);
-      setError(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Users fetch error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch users');
+      const errorMessage = err?.response?.status === 500 
+        ? 'Server error - please try again later'
+        : err?.message || 'Failed to fetch users';
+      setError(errorMessage);
+      setUsers([]);
     } finally {
       setLoading(false);
     }
   };
   const addUser = async (user: CreateUserData) => {
-    const newUser = await UserService.createUser(user);
-    setUsers(prev => [...prev, newUser]);
+    try {
+      const newUser = await UserService.createUser(user);
+      setUsers(prev => [...prev, newUser]);
+    } catch (err: any) {
+      throw new Error(err?.message || 'Failed to create user');
+    }
   };
   const editUser = async (id: string, user: Partial<CreateUserData>) => {
-    const updatedUser = await UserService.updateUser(id, user);
-    setUsers(prev => prev.map(u => u._id === id ? updatedUser : u));
+    try {
+      const updatedUser = await UserService.updateUser(id, user);
+      setUsers(prev => prev.map(u => u._id === id ? updatedUser : u));
+    } catch (err: any) {
+      throw new Error(err?.message || 'Failed to update user');
+    }
   };
   const removeUser = async (id: string) => {
-    await UserService.deleteUser(id);
-    setUsers(prev => prev.filter(u => u._id !== id));
+    try {
+      await UserService.deleteUser(id);
+      setUsers(prev => prev.filter(u => u._id !== id));
+    } catch (err: any) {
+      throw new Error(err?.message || 'Failed to delete user');
+    }
   };
   const getUser = async (id: string): Promise<User> => {
     return await UserService.getUser(id);

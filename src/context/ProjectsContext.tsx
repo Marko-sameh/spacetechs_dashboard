@@ -44,10 +44,13 @@ export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, []);
   const addProject = async (project: CreateProjectData) => {
     try {
+      console.log('Sending project data:', JSON.stringify(project, null, 2));
       const newProject = await ProjectsService.createProject(project);
       setProjects(prev => [...prev, newProject]);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to add project:', err);
+      console.error('Error response:', err?.response?.data);
+      console.error('Error status:', err?.response?.status);
       throw err;
     }
   };

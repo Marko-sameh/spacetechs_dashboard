@@ -81,9 +81,11 @@ const BlogsList: React.FC = () => {
         blog.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
         blog.content?.toLowerCase().includes(filters.search.toLowerCase()) ||
         blog.author?.toLowerCase().includes(filters.search.toLowerCase());
-      const matchesCategory = !filters.category || blog.category === filters.category;
+      const matchesCategory = !filters.category || 
+        (typeof blog.category === 'string' ? blog.category === filters.category : blog.category?._id === filters.category);
       const matchesFeatured = !filters.featured || blog.featured?.toString() === filters.featured;
-      const matchesTags = !filters.tags || blog.tags?.some((tag: string) => tag.toLowerCase().includes(filters.tags.toLowerCase()));
+      const matchesTags = !filters.tags || 
+        (blog.tags && Array.isArray(blog.tags) && blog.tags.some((tag: string) => tag.toLowerCase().includes(filters.tags.toLowerCase())));
       return matchesSearch && matchesCategory && matchesFeatured && matchesTags;
     });
     return filtered.sort((a: Blog, b: Blog) => {
