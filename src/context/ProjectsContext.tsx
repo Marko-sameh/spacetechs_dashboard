@@ -1,15 +1,18 @@
 import React, { createContext, useState, ReactNode, useMemo, useCallback } from 'react';
 import { ProjectsService } from '../services/projectsService';
 import { Project, QueryParams, CreateProjectData } from '../types/models';
+
 interface PaginationInfo {
   currentPage: number;
   limit: number;
   totalPages: number;
 }
+
 interface MediaData {
   type: 'image' | 'video';
   url: string;
 }
+
 interface ProjectsContextType {
   projects: Project[];
   loading: boolean;
@@ -22,12 +25,15 @@ interface ProjectsContextType {
   updateMedia: (id: string, files: FileList) => Promise<void>;
   deleteMedia: (id: string, mediaData: MediaData) => Promise<void>;
 }
+
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
+
 export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<PaginationInfo>();
+
   const fetchProjects = useCallback(async (params: QueryParams = {}) => {
     try {
       setLoading(true);
@@ -42,18 +48,23 @@ export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }
       setLoading(false);
     }
   }, []);
+
   const addProject = async (project: CreateProjectData) => {
     try {
       console.log('Sending project data:', JSON.stringify(project, null, 2));
       const newProject = await ProjectsService.createProject(project);
       setProjects(prev => [...prev, newProject]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to add project:', err);
-      console.error('Error response:', err?.response?.data);
-      console.error('Error status:', err?.response?.status);
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as { response?: { data?: unknown; status?: number } };
+        console.error('Error response:', axiosError.response?.data);
+        console.error('Error status:', axiosError.response?.status);
+      }
       throw err;
     }
   };
+
   const editProject = async (id: string, project: Partial<CreateProjectData>) => {
     try {
       const updatedProject = await ProjectsService.updateProject(id, project);
@@ -63,10 +74,12 @@ export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }
       throw err;
     }
   };
+
   const removeProject = async (id: string) => {
     await ProjectsService.deleteProject(id);
     setProjects(prev => prev.filter(p => p._id !== id));
   };
+
   const updateMedia = async (id: string, files: FileList) => {
     const formData = new FormData();
     Array.from(files).forEach(file => {
@@ -79,17 +92,12 @@ export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }
     const updatedProject = await ProjectsService.updateMedia(id, formData);
     setProjects(prev => prev.map(p => p._id === id ? updatedProject : p));
   };
+
   const deleteMedia = async (id: string, mediaData: MediaData) => {
     const updatedProject = await ProjectsService.deleteMedia(id, mediaData);
     setProjects(prev => prev.map(p => p._id === id ? updatedProject : p));
   };
-  // Disabled automatic fetching - use hooks instead
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     fetchProjects();
-  //   }
-  // }, []);
+
   const contextValue = useMemo(() => ({
     projects,
     loading,
@@ -102,10 +110,12 @@ export const ProjectsProvider: React.FC<{ children: ReactNode }> = ({ children }
     updateMedia,
     deleteMedia
   }), [projects, loading, error, pagination, fetchProjects]);
+
   return (
     <ProjectsContext.Provider value={contextValue}>
       {children}
     </ProjectsContext.Provider>
   );
 };
+
 export { ProjectsContext };

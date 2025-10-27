@@ -21,7 +21,7 @@ export default defineConfig({
         },
       },
     }),
-    removeConsolePlugin(),
+    // removeConsolePlugin(),
   ],
 
   // Performance optimizations
@@ -38,32 +38,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 500,
     // Enable source maps for production debugging
     sourcemap: false,
-    // Enable aggressive minification
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.warn'],
-        passes: 5,
-        unsafe: true,
-        unsafe_comps: true,
-        unsafe_math: true,
-        unsafe_proto: true,
-        unsafe_regexp: true,
-        hoist_funs: true,
-        hoist_vars: true,
-        reduce_vars: true,
-        reduce_funcs: true
-      },
-      mangle: {
-        safari10: true,
-        toplevel: true
-      },
-      format: {
-        comments: false
-      }
-    },
+    minify: true,
     cssMinify: true,
   },
 
