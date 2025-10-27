@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { useProjects } from '../../../hooks/useProjects';
 import { useCategories } from '../../../hooks/useCategories';
 import { Project, Category, CreateProjectData } from '../../../types/models';
@@ -28,10 +29,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
   const { categories } = useCategories();
   const { addProject, editProject } = useProjects();
   const [isLoading, setIsLoading] = useState(false);
-  const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    
+  const processFiles = useCallback(async (files: File[]) => {
     const maxImages = 10;
     if (formData.images.length + files.length > maxImages) {
       alert(`Maximum ${maxImages} images allowed`);
@@ -39,7 +37,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
     }
     
     const newImages: string[] = [];
-    for (const file of Array.from(files)) {
+    for (const file of files) {
       const validationError = validateImageFile(file);
       if (validationError) {
         alert(`${file.name}: ${validationError}`);
@@ -60,10 +58,16 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
         images: [...prev.images, ...newImages]
       }));
     }
-    
-    // Reset input
-    e.target.value = '';
   }, [formData.images.length]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+    },
+    maxFiles: 10,
+    onDrop: processFiles,
+    disabled: formData.images.length >= 10
+  });
   const removeImage = useCallback((index: number) => {
     setFormData(prev => ({
       ...prev,
@@ -266,40 +270,44 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Project Images ({formData.images.length}/10)
         </label>
-        <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-            id="image-upload"
-          />
-          <label htmlFor="image-upload" className="cursor-pointer">
-            <div className="text-gray-500 dark:text-gray-400">
-              <svg className="mx-auto h-12 w-12 mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-sm">Click to upload or drag and drop</p>
-              <p className="text-xs text-gray-400">PNG, JPG, GIF up to 3MB each</p>
-            </div>
-          </label>
+        <div 
+          {...getRootProps()} 
+          className={`border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer ${
+            isDragActive 
+              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
+              : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
+          } ${formData.images.length >= 10 ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          <input {...getInputProps()} />
+          <div className="text-gray-500 dark:text-gray-400">
+            <svg className="mx-auto h-12 w-12 mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {isDragActive ? (
+              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Drop images here...</p>
+            ) : (
+              <>
+                <p className="text-sm">Drag & drop images here, or click to select</p>
+                <p className="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 3MB each (max 10 images)</p>
+              </>
+            )}
+          </div>
         </div>
         
         {formData.images && formData.images.length > 0 && (
           <div className="mt-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
               {formData.images.map((image, index) => (
-                <div key={index} className="relative group aspect-square">
+                <div key={index} className="relative group aspect-square animate-fadeIn">
                   <img
                     src={image}
                     alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg border border-gray-200 dark:border-gray-600"
+                    className="w-full h-full object-cover rounded-lg border border-gray-200 dark:border-gray-600 transition-transform group-hover:scale-105"
                   />
                   <button
                     type="button"
                     onClick={() => removeImage(index)}
-                    className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg"
+                    className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg transform hover:scale-110"
                     title="Remove image"
                   >
                     ×
@@ -377,4 +385,5 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onSuccess }) => {
     </form>
   );
 };
+
 export default ProjectForm;
